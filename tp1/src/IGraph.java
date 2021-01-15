@@ -1,9 +1,9 @@
 interface IGraph {
-    
+
     int edgeCount();
     int verticesCount();
-    public int degreeMax();
-    public int distance (int u, int v);
+    int degreeMax();
+    int distance (int u, int v);
 
 
     int[] adjacencyList(int u);

@@ -20,7 +20,7 @@ class Graph implements IGraph {
     }
 
     @Override
-    public int edgeCount(int v) {
+    public int edgeCount() {
         int count = 0;
         for(int i = 0; i< adjacencyLists.length; i++){
             count += adjacencyLists[i].length - 1;
@@ -72,7 +72,7 @@ class Graph implements IGraph {
         parents[u] = -2;
 
         while(!File.isEmpty()){
-            int s = File.getFirst();
+            int s = File.poll();
 
             //Si c'est le sommet voulu on s'arrete et on calcule la distance parcourue
             if(s == v){
@@ -100,7 +100,7 @@ class Graph implements IGraph {
 
     
     @Override
-    public int[] adjacencyLists(int u) {
+    public int[] adjacencyList(int u) {
         // TODO
         return null;
     }
