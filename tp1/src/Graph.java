@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 class Graph implements IGraph {
 
@@ -34,18 +34,18 @@ class Graph implements IGraph {
     }
 
     public int degree (int v){
-        int sortant = adjacences[v].length - 1;
+        int sortant = adjacencyLists[v].length - 1;
         int entrant = 0;
 
         for(int i = 0; i<adjacencyLists.length; i++){
             if (i != v){
-                for(int j = 0; j<adjacences[i].length; j++){
-                    if (adjacences[i][j] == v) entrant++ ;
+                for(int j = 0; j<adjacencyLists[i].length; j++){
+                    if (adjacencyLists[i][j] == v) entrant++ ;
                 }
             }
         }
-
-        return sortant + entrant;
+        if(oriented)     return sortant + entrant;
+        return (sortant + entrant)/2;
     }
 
     @Override
@@ -55,7 +55,7 @@ class Graph implements IGraph {
             int degre = degree(i);
             if (degre > max) max = degre;
         }
-        return degre;
+        return max;
     }
 
     @Override
@@ -63,9 +63,9 @@ class Graph implements IGraph {
         int dist = -1;
         //initialisation
         Deque<Integer> File = new ArrayDeque<Integer>(adjacencyLists.length);
-        int [] parent = new int[adjacencyLists.length];
+        int [] parents = new int[adjacencyLists.length];
         for(int i = 0; i<adjacencyLists.length ; i++){
-            parents[i] = --1;
+            parents[i] = -1;
         }
 
         File.add(u);
@@ -87,9 +87,9 @@ class Graph implements IGraph {
             //Sinon on ajoute ses voisins a la File
             for(int j = 0; j < adjacencyLists[s].length; j++){
                 //Si pas marque on l'ajoute
-                if(parent[adjacencyLists[s][j]] == -1){
+                if(parents[adjacencyLists[s][j]] == -1){
                     File.addLast(adjacencyLists[s][j]);
-                    parent[adjacencyLists[s][j]] = s;
+                    parents[adjacencyLists[s][j]] = s;
                 }
             }
         }
