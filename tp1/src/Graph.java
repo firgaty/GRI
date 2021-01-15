@@ -22,7 +22,7 @@ class Graph implements IGraph {
     @Override
     public int edgeCount() {
         int count = 0;
-        for(int i = 0; i< adjacencyLists.length; i++){
+        for (int i = 0; i < adjacencyLists.length; i++) {
             count += adjacencyLists[i].length - 1;
         }
         return count;
@@ -33,72 +33,74 @@ class Graph implements IGraph {
         return adjacencyLists.length - 1;
     }
 
-    public int degree (int v){
+    public int degree(int v) {
         int sortant = adjacencyLists[v].length - 1;
         int entrant = 0;
 
-        for(int i = 0; i<adjacencyLists.length; i++){
-            if (i != v){
-                for(int j = 0; j<adjacencyLists[i].length; j++){
-                    if (adjacencyLists[i][j] == v) entrant++ ;
+        for (int i = 0; i < adjacencyLists.length; i++) {
+            if (i != v) {
+                for (int j = 0; j < adjacencyLists[i].length; j++) {
+                    if (adjacencyLists[i][j] == v)
+                        entrant++;
                 }
             }
         }
-        if(oriented)     return sortant + entrant;
-        return (sortant + entrant)/2;
+        if (oriented)
+            return sortant + entrant;
+        return (sortant + entrant) / 2;
     }
 
     @Override
-    public int degreeMax(){
-        int max  = 0;
-        for(int i = 0; i < adjacencyLists.length; i++){
+    public int degreeMax() {
+        int max = 0;
+        for (int i = 0; i < adjacencyLists.length; i++) {
             int degre = degree(i);
-            if (degre > max) max = degre;
+            if (degre > max)
+                max = degre;
         }
         return max;
     }
 
     @Override
-    public int distance (int u, int v){
+    public int distance(int u, int v) {
         int dist = -1;
-        //initialisation
+        // initialisation
         Deque<Integer> File = new ArrayDeque<Integer>(adjacencyLists.length);
-        int [] parents = new int[adjacencyLists.length];
-        for(int i = 0; i<adjacencyLists.length ; i++){
+        int[] parents = new int[adjacencyLists.length];
+        for (int i = 0; i < adjacencyLists.length; i++) {
             parents[i] = -1;
         }
 
         File.add(u);
         parents[u] = -2;
 
-        while(!File.isEmpty()){
+        while (!File.isEmpty()) {
             int s = File.poll();
 
-            //Si c'est le sommet voulu on s'arrete et on calcule la distance parcourue
-            if(s == v){
+            // Si c'est le sommet voulu on s'arrete et on calcule la distance parcourue
+            if (s == v) {
                 dist = 0;
-                while(parents[s] != -2){
+                while (parents[s] != -2) {
                     s = parents[s];
-                    dist ++;
+                    dist++;
                 }
                 return dist;
             }
 
-            //Sinon on ajoute ses voisins a la File
-            for(int j = 0; j < adjacencyLists[s].length; j++){
-                //Si pas marque on l'ajoute
-                if(parents[adjacencyLists[s][j]] == -1){
+            // Sinon on ajoute ses voisins a la File
+            for (int j = 0; j < adjacencyLists[s].length; j++) {
+                // Si pas marque on l'ajoute
+                if (parents[adjacencyLists[s][j]] == -1) {
                     File.addLast(adjacencyLists[s][j]);
                     parents[adjacencyLists[s][j]] = s;
                 }
             }
         }
-        
+
         return dist;
- 
+
     }
 
-    
     @Override
     public int[] adjacencyList(int u) {
         // TODO
@@ -108,15 +110,6 @@ class Graph implements IGraph {
     @Override
     public void addEdges(int u, int[] edges) {
         adjacencyLists[u] = edges;
-
-        // If not oriented add reverse edges if missing
-        if (!oriented) {
-            for (int v : edges) {
-                if (!hasEdge(v, u, true)) {
-                    addEdge(v, u, false);
-                }
-            }
-        }
     }
 
     @Override
@@ -130,41 +123,23 @@ class Graph implements IGraph {
             return;
         }
 
-        if (!hasEdge(u, v, true)) {
-            int[] newList = new int[adjacencyLists[u].length + 1];
+        int[] newList = new int[adjacencyLists[u].length + 1];
 
-            for (int i = 0; i < adjacencyLists[u].length; i++) {
-                newList[i] = adjacencyLists[u][i];
-            }
-
-            newList[adjacencyLists[u].length] = v;
-
-            adjacencyLists[u] = newList;
+        for (int i = 0; i < adjacencyLists[u].length; i++) {
+            newList[i] = adjacencyLists[u][i];
         }
-        
-        // If not oriented add reverse edge if missing
-        if (checkOrientation && !oriented) {
-            if (!hasEdge(v, u, true)) {
-                addEdge(v, u, false);
-            }
-        }
+
+        newList[adjacencyLists[u].length] = v;
+
+        adjacencyLists[u] = newList;
+
     }
 
     @Override
     public boolean hasEdge(int u, int v) {
-        return hasEdge(u, v, this.oriented);
-    }
-
-    private boolean hasEdge(int u, int v, boolean oriented) {
         if (adjacencyLists[u] != null) {
             for (int e : adjacencyLists[u])
                 if (e == v)
-                    return true;
-        }
-
-        if (!oriented && adjacencyLists[v] != null) {
-            for (int e : adjacencyLists[v])
-                if (e == u)
                     return true;
         }
 
@@ -189,10 +164,10 @@ class Graph implements IGraph {
         g.addEdges(0, new int[] { 1, 2 });
         g.addEdge(1, 2);
         g.addEdge(2, 1);
-        
+
         System.out.println(g.toString());
         System.out.println(g.degreeMax());
-        System.out.println(g.distance(0,2));
+        System.out.println(g.distance(0, 2));
         System.out.println(g.edgeCount());
     }
 }
