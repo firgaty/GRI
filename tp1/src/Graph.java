@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 class Graph implements IGraph {
 
@@ -21,16 +21,84 @@ class Graph implements IGraph {
 
     @Override
     public int edgeCount() {
-        // TODO
-        return 0;
+        int count = 0;
+        for(int i = 0; i< adjacencyLists.length; i++){
+            count += adjacencyLists[i].length - 1;
+        }
+        return count;
     }
 
     @Override
     public int verticesCount() {
-        // TODO
-        return 0;
+        return adjacencyLists.length - 1;
     }
 
+    public int degree (int v){
+        int sortant = adjacencyLists[v].length - 1;
+        int entrant = 0;
+
+        for(int i = 0; i<adjacencyLists.length; i++){
+            if (i != v){
+                for(int j = 0; j<adjacencyLists[i].length; j++){
+                    if (adjacencyLists[i][j] == v) entrant++ ;
+                }
+            }
+        }
+        if(oriented)     return sortant + entrant;
+        return (sortant + entrant)/2;
+    }
+
+    @Override
+    public int degreeMax(){
+        int max  = 0;
+        for(int i = 0; i < adjacencyLists.length; i++){
+            int degre = degree(i);
+            if (degre > max) max = degre;
+        }
+        return max;
+    }
+
+    @Override
+    public int distance (int u, int v){
+        int dist = -1;
+        //initialisation
+        Deque<Integer> File = new ArrayDeque<Integer>(adjacencyLists.length);
+        int [] parents = new int[adjacencyLists.length];
+        for(int i = 0; i<adjacencyLists.length ; i++){
+            parents[i] = -1;
+        }
+
+        File.add(u);
+        parents[u] = -2;
+
+        while(!File.isEmpty()){
+            int s = File.poll();
+
+            //Si c'est le sommet voulu on s'arrete et on calcule la distance parcourue
+            if(s == v){
+                dist = 0;
+                while(parents[s] != -2){
+                    s = parents[s];
+                    dist ++;
+                }
+                return dist;
+            }
+
+            //Sinon on ajoute ses voisins a la File
+            for(int j = 0; j < adjacencyLists[s].length; j++){
+                //Si pas marque on l'ajoute
+                if(parents[adjacencyLists[s][j]] == -1){
+                    File.addLast(adjacencyLists[s][j]);
+                    parents[adjacencyLists[s][j]] = s;
+                }
+            }
+        }
+        
+        return dist;
+ 
+    }
+
+    
     @Override
     public int[] adjacencyList(int u) {
         // TODO
@@ -121,7 +189,10 @@ class Graph implements IGraph {
         g.addEdges(0, new int[] { 1, 2 });
         g.addEdge(1, 2);
         g.addEdge(2, 1);
-
+        
         System.out.println(g.toString());
+        System.out.println(g.degreeMax());
+        System.out.println(g.distance(0,2));
+        System.out.println(g.edgeCount());
     }
 }
