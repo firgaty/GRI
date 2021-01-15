@@ -1,7 +1,13 @@
 class Graph implements IGraph {
 
-    public Graph() {
+    private int[][] adjacences;
 
+    /**
+     * Create new graph of n vertices
+     * @param n Number of vertices
+     */
+    public Graph(int n) {
+        this.adjacences = new int[n][];
     }
 
     @Override
