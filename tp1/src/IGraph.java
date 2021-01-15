@@ -6,7 +6,7 @@ interface IGraph {
     int[] adjacencyList(int u);
 
     /**
-     * Add list to adjacency lists
+     * Add edge list to adjacency lists
      * @param u Source vertice
      * @param edges Neighbours
      */
