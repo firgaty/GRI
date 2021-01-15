@@ -20,17 +20,83 @@ class Graph implements IGraph {
     }
 
     @Override
-    public int edgeCount() {
-        // TODO
-        return 0;
+    public int edgeCount(int v) {
+        int count = 0;
+        for(int i = 0; i< adjacencyList.length; i++){
+            count += adjacencyList[i].length - 1;
+        }
+        return count;
     }
 
     @Override
     public int verticesCount() {
-        // TODO
-        return 0;
+        return adjacencyList.length - 1;
     }
 
+    public int degree (int v){
+        int sortant = adjacences[v].length - 1;
+        int entrant = 0;
+
+        for(int i = 0; i<adjacencyList.length){
+            if (j ! v){
+                for(int j = 0; j<adjacences[i].length; j++){
+                    if (adjacences[i][j] == v) entrant++ ;
+                }
+            }
+        }
+
+        return sortant + entrant;
+    }
+
+    public int degreeMax(){
+        int max  = 0;
+        for(int i = 0; i < adjacencyList.length; i++){
+            int degre = degree(i);
+            if (degre > max) max = degre;
+        }
+        return degre;
+    }
+
+    public int distance (int u, int v){
+        int dist = -1;
+        //initialisation
+        Deque<Integer> File = new ArrayDeque<Integer>(adjacencyList.length);
+        int [] parent = new int[adjacencyList.length];
+        for(int i = 0; i<adjacencyList.length ; i++){
+            parent[i] = --1;
+        }
+
+        File.add(u);
+        parent[u] = -2
+
+        while(!File.isEmpty()){
+            int s = File.getFirst();
+
+            //Si c'est le sommet voulu on s'arrete et on calcule la distance parcourue
+            if(s == v){
+                dist = 0;
+                while(parents[s] != -2){
+                    s = parent[s];
+                    dist ++;
+                }
+                return dist;
+            }
+
+            //Sinon on ajoute ses voisins a la File
+            for(int j = 0; j < adjacencyList[s].length; j++){
+                //Si pas marque on l'ajoute
+                if(parent[adjacencyList[s][j]] == -1){
+                    File.addLast(adjacencyList[s][j]);
+                    parent[adjacencyList[s][j]] = s;
+                }
+            }
+        }
+        
+        return dist;
+ 
+    }
+
+    
     @Override
     public int[] adjacencyList(int u) {
         // TODO
