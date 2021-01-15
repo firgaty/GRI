@@ -1,7 +1,10 @@
 interface IGraph {
+    
     int edgeCount();
-
     int verticesCount();
+    public int degreeMax();
+    public int distance (int u, int v);
+
 
     int[] adjacencyList(int u);
 
@@ -21,6 +24,7 @@ interface IGraph {
      * @param v Target
      */
     void addEdge(int u, int v);
+
 
     boolean hasEdge(int u, int v);
 }

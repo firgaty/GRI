@@ -37,8 +37,8 @@ class Graph implements IGraph {
         int sortant = adjacences[v].length - 1;
         int entrant = 0;
 
-        for(int i = 0; i<adjacencyLists.length){
-            if (j ! v){
+        for(int i = 0; i<adjacencyLists.length; i++){
+            if (i != v){
                 for(int j = 0; j<adjacences[i].length; j++){
                     if (adjacences[i][j] == v) entrant++ ;
                 }
@@ -48,6 +48,7 @@ class Graph implements IGraph {
         return sortant + entrant;
     }
 
+    @Override
     public int degreeMax(){
         int max  = 0;
         for(int i = 0; i < adjacencyLists.length; i++){
@@ -57,17 +58,18 @@ class Graph implements IGraph {
         return degre;
     }
 
+    @Override
     public int distance (int u, int v){
         int dist = -1;
         //initialisation
         Deque<Integer> File = new ArrayDeque<Integer>(adjacencyLists.length);
         int [] parent = new int[adjacencyLists.length];
         for(int i = 0; i<adjacencyLists.length ; i++){
-            parent[i] = --1;
+            parents[i] = --1;
         }
 
         File.add(u);
-        parent[u] = -2
+        parents[u] = -2;
 
         while(!File.isEmpty()){
             int s = File.getFirst();
@@ -76,7 +78,7 @@ class Graph implements IGraph {
             if(s == v){
                 dist = 0;
                 while(parents[s] != -2){
-                    s = parent[s];
+                    s = parents[s];
                     dist ++;
                 }
                 return dist;
@@ -187,7 +189,10 @@ class Graph implements IGraph {
         g.addEdges(0, new int[] { 1, 2 });
         g.addEdge(1, 2);
         g.addEdge(2, 1);
-
+        
         System.out.println(g.toString());
+        System.out.println(g.degreeMax());
+        System.out.println(g.distance(0,2));
+        System.out.println(g.edgeCount());
     }
 }
