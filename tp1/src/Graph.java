@@ -103,8 +103,7 @@ class Graph implements IGraph {
 
     @Override
     public int[] adjacencyList(int u) {
-        // TODO
-        return null;
+        return adjacencyLists[u];
     }
 
     @Override
