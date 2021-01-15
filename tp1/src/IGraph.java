@@ -21,4 +21,6 @@ interface IGraph {
      * @param v Target
      */
     void addEdge(int u, int v);
+
+    boolean hasEdge(int u, int v);
 }
