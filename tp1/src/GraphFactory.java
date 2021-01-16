@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.Math;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -225,23 +224,6 @@ public class GraphFactory {
         if (to[idx] > toVal)
             return 1;
         return 0;
-    }
-
-    private void filter(final int[] from, final int[] to) {
-        // O(n)
-        for (int i = 0; i < from.length;) {
-
-            for (int j = i + 1; j < from.length; j++) {
-                if (from[i] - from[j] == 0 && to[i] - to[j] == 0) {
-                    from[j] = 0;
-                    to[j] = 0;
-                } else {
-                    i += j - i;
-                    break;
-                }
-            }
-
-        }
     }
 
     public static void main(String[] args) {
