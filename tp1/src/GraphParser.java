@@ -170,7 +170,7 @@ public class GraphParser implements IGraphParser {
             g.addEdges(from[inf], edges);
         }
 
-        System.out.println("Ok!");
+        //System.out.println("Ok!");
         return g;
     }
 
