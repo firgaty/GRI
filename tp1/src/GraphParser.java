@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GraphFactory {
+public class GraphParser implements IGraphParser {
 
     final Pattern pattern = Pattern.compile("^(\\d+)\\s+(\\d+)$");
 
-    public IGraph generate(String file, int maxNode, boolean oriented) {
+    @Override
+    public IGraph parse(String file, int maxNode, boolean oriented) {
         int[] from = new int[maxNode];
         int[] to = new int[maxNode];
 
@@ -195,7 +196,7 @@ public class GraphFactory {
         });
     }
 
-    public boolean contains(final int[] from, final int[] to, final int keyA, final int keyB, int high) {
+    private boolean contains(final int[] from, final int[] to, final int keyA, final int keyB, int high) {
         int low = 0;
 
         while (low <= high) {
@@ -214,7 +215,7 @@ public class GraphFactory {
         return false;
     }
 
-    public int compare(final int idx, final int fromVal, final int toVal, final int[] from, final int[] to) {
+    private int compare(final int idx, final int fromVal, final int toVal, final int[] from, final int[] to) {
         if (from[idx] < fromVal)
             return -1;
         if (from[idx] > fromVal)
@@ -228,17 +229,11 @@ public class GraphFactory {
 
     public static void main(String[] args) {
         String file = "web-BerkStan.txt";
-        // IGraph g = gf.generate(args[0], Integer.parseInt(args[1]),false);
-        GraphFactory gf = new GraphFactory();
+        // IGraph g = gf.parse(args[0], Integer.parseInt(args[1]),false);
+        GraphParser gf = new GraphParser();
 
-        // IGraph g = gf.generate(file, 28980, false);
-        IGraph g = gf.generate(file, 7600595, false);
-
-        // int[] from = new int[] { 1, 2, 5, 6, 7, 7, 7, 7, 8, 9, 10 };
-        // int[] to = new int[] { 5, 3, 6, 1, 2, 3, 4, 6, 1, 4, 10 };
-
-        // System.out.println(gf.compare(6, 6, 4, from, to));
-        // System.out.println(gf.contains(from, to, 6, 2, from.length -1));
+        // IGraph g = gf.parse(file, 28980, false);
+        IGraph g = gf.parse(file, 7600595, false);
     }
 
 }
