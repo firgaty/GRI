@@ -113,10 +113,6 @@ class Graph implements IGraph {
 
     @Override
     public void addEdge(int u, int v) {
-        addEdge(u, v, true);
-    }
-
-    private void addEdge(int u, int v, boolean checkOrientation) {
         if (adjacencyLists[u] == null) {
             adjacencyLists[u] = new int[] { v };
             return;
@@ -131,7 +127,6 @@ class Graph implements IGraph {
         newList[adjacencyLists[u].length] = v;
 
         adjacencyLists[u] = newList;
-
     }
 
     @Override
