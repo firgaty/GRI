@@ -21,7 +21,7 @@ public class GraphParser implements IGraphParser {
             String strCurrentLine;
             objReader = new BufferedReader(new FileReader(file));
             while ((strCurrentLine = objReader.readLine()) != null && strCurrentLine.charAt(0) == '#')
-                System.out.println(strCurrentLine);
+                ;
 
             for (int i = 0; i < maxNode && strCurrentLine != null; i++, strCurrentLine = objReader.readLine()) {
                 Matcher matcher = pattern.matcher(strCurrentLine);
@@ -53,8 +53,6 @@ public class GraphParser implements IGraphParser {
         // Calculate nodes
         int max = 0;
 
-        System.out.println("from length: " + from.length);
-
         idx = new Integer[from.length];
         for (int i = 0; i < from.length; i++) {
             idx[i] = i;
@@ -62,7 +60,6 @@ public class GraphParser implements IGraphParser {
 
         // First Sort
         {
-            System.out.println("First sort...");
             // O(n log n)
             sort(idx, from, to);
 
@@ -120,7 +117,6 @@ public class GraphParser implements IGraphParser {
 
         // Sort
         {
-            System.out.println("Second sort...");
             // O(n log n)
             sort(idx, from, to);
 
@@ -141,7 +137,6 @@ public class GraphParser implements IGraphParser {
         // Ask to free memory
         System.gc();
 
-        System.out.println("Create Graph");
         // Create graph
         IGraph g = new Graph(max + 1, oriented);
 
@@ -152,7 +147,6 @@ public class GraphParser implements IGraphParser {
             ;
 
         for (int i = inf; i < to.length; i++) {
-            // System.out.println(from[i] + ":" + to[i]);
             if (from[i] != from[inf]) {
                 int[] edges = new int[i - inf];
 
