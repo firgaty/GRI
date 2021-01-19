@@ -70,7 +70,8 @@ class Graph implements IGraph {
     @Override
     public int distance(int u, int v) {
         if(u == v) return 0;
-        int dist = -1;
+        //Si on ne trouve pas de chemin on renvoie le plus grand entier possible
+        int dist = 2147483647;
         // initialisation
         Deque<Integer> File = new ArrayDeque<Integer>(adjacencyLists.length);
         int[] parents = new int[adjacencyLists.length];
