@@ -4,7 +4,6 @@ class Graph implements IGraph {
 
     private int[][] adjacencyLists;
     private boolean oriented;
-    private int nb_edge;
 
     /**
      * Create new graph of n vertices
@@ -23,22 +22,17 @@ class Graph implements IGraph {
     public Graph(int n, boolean oriented, int nb_edge) {
         this.adjacencyLists = new int[n][];
         this.oriented = oriented;
-        this.nb_edge = nb_edge;
     }
 
     @Override
     public int edgeCount() {
         int count = 0;
         for (int i = 0; i < adjacencyLists.length; i++) {
-            if(adjacencyLists[i] != null){
+            if (adjacencyLists[i] != null) {
                 count += adjacencyLists[i].length;
             }
         }
         return count;
-    }
-
-    public int get_nb_edge() {
-        return this.nb_edge;
     }
 
     @Override
@@ -47,17 +41,20 @@ class Graph implements IGraph {
     }
 
     public int degree(int v) {
-        int sortant ;
-        if(adjacencyLists[v]!=null){
+        int sortant;
+        if (adjacencyLists[v] != null) {
             sortant = adjacencyLists[v].length;
-        }else{
+        } else {
             sortant = 0;
         }
+
+        if (!oriented)
+            return sortant;
 
         int entrant = 0;
 
         for (int i = 0; i < adjacencyLists.length; i++) {
-            if (i != v && adjacencyLists[i]!=null) {
+            if (i != v && adjacencyLists[i] != null) {
                 for (int j = 0; j < adjacencyLists[i].length; j++) {
                     if (adjacencyLists[i][j] == v)
                         entrant++;
@@ -172,17 +169,17 @@ class Graph implements IGraph {
     }
 
     public static void main(String[] args) {
-       
+
         IGraph g = new Graph(3, false);
 
         g.addEdges(0, new int[] { 1, 2 });
         g.addEdge(1, 2);
         g.addEdge(2, 1);
         Memory.mem();
-        System.out.println("n="+g.verticesCount());
-        System.out.println("m="+g.edgeCount());
+        System.out.println("n=" + g.verticesCount());
+        System.out.println("m=" + g.edgeCount());
         Memory.mem();
-        System.out.println("degmax="+g.degreeMax());
-        System.out.println("dist="+g.distance(0, 2));
+        System.out.println("degmax=" + g.degreeMax());
+        System.out.println("dist=" + g.distance(0, 2));
     }
 }

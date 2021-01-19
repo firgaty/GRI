@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.System;
 
 public class GraphParser implements IGraphParser {
 
@@ -48,17 +49,32 @@ public class GraphParser implements IGraphParser {
             }
         }
 
-        // O(n log n) 
+        // O(n log n)
         Memory.mem();
         return graphFromArrays(from, to, oriented, i);
     }
 
     private IGraph graphFromArrays(int[] from, int[] to, boolean oriented, int nb_edges) {
-        Integer[] idx;
+
+        // O(n)
+        {
+            int[] newFrom = new int[nb_edges];
+            int[] newTo = new int[nb_edges];
+
+            System.arraycopy(from, 0, newFrom, 0, nb_edges);
+            System.arraycopy(to, 0, newTo, 0, nb_edges);
+
+            from = newFrom;
+            to = newTo;
+        }
+
+        // Ask to free memory
+        System.gc();
+
         // Calculate nodes
         int max = 0;
 
-        idx = new Integer[from.length];
+        Integer[] idx = new Integer[from.length];
         for (int i = 0; i < from.length; i++) {
             idx[i] = i;
         }
@@ -103,11 +119,11 @@ public class GraphParser implements IGraphParser {
                 newTo[i] = to[i];
 
                 // O(log n)
-                if (!contains(from, to, to[i], from[i], from.length - 1)
-                        && !contains(newFrom, newTo, to[i], from[i], newFrom.length - 1)) {
-                    newFrom[i + from.length] = to[i];
-                    newTo[i + from.length] = from[i];
-                }
+                // if (!contains(from, to, to[i], from[i], from.length - 1)
+                // && !contains(newFrom, newTo, to[i], from[i], newFrom.length - 1)) {
+                newFrom[i + from.length] = to[i];
+                newTo[i + from.length] = from[i];
+                // }
 
                 idx[i] = i;
                 idx[i + from.length] = i + from.length;
@@ -143,9 +159,9 @@ public class GraphParser implements IGraphParser {
         System.gc();
 
         // Create graph
-        IGraph g = new Graph(max + 1, oriented, nb_edges);
-        System.out.println("n="+(max + 1));
-        System.out.println("m="+nb_edges);
+        IGraph g = new Graph(max + 1, oriented);
+        System.out.println("n=" + (max + 1));
+        System.out.println("m=" + nb_edges);
         // O(n)
         int inf = 0;
         // Pass null values
@@ -176,8 +192,6 @@ public class GraphParser implements IGraphParser {
             g.addEdges(from[inf], edges);
         }
 
-        //System.out.println("Ok!");
-        Memory.mem();
         return g;
     }
 
@@ -197,24 +211,24 @@ public class GraphParser implements IGraphParser {
         });
     }
 
-    private boolean contains(final int[] from, final int[] to, final int keyA, final int keyB, int high) {
-        int low = 0;
+    // private boolean contains(final int[] from, final int[] to, final int keyA, final int keyB, int high) {
+    //     int low = 0;
 
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            int comp = compare(mid, keyA, keyB, from, to);
+    //     while (low <= high) {
+    //         int mid = (low + high) / 2;
+    //         int comp = compare(mid, keyA, keyB, from, to);
 
-            if (comp < 0) {
-                low = mid + 1;
-            } else if (comp > 0) {
-                high = mid - 1;
-            } else if (comp == 0) {
-                return true;
-            }
-        }
+    //         if (comp < 0) {
+    //             low = mid + 1;
+    //         } else if (comp > 0) {
+    //             high = mid - 1;
+    //         } else if (comp == 0) {
+    //             return true;
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     private int compare(final int idx, final int fromVal, final int toVal, final int[] from, final int[] to) {
         if (from[idx] < fromVal)

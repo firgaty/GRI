@@ -10,7 +10,6 @@ CLASSES = \
 		  Memory.java \
 		  GraphParser.java \
 		  Graph.java
-		  
 
 default: classes
 
