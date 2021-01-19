@@ -1,6 +1,7 @@
 interface IGraph {
 
     int edgeCount();
+    int get_nb_edge();
     int verticesCount();
     int degreeMax();
     int distance (int u, int v);

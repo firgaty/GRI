@@ -10,11 +10,6 @@ public class TP1{
         GraphParser gf = new GraphParser();
         //on considere le graphe non oriente
         IGraph g = gf.parse(fileName, nbNodes, false);
-
-        Memory.mem();
-        System.out.println("n="+g.verticesCount());
-        System.out.println("m="+g.edgeCount());
-        Memory.mem();
         System.out.println("degmax="+g.degreeMax());
         System.out.println("dist="+g.distance(firstNode, secondNode));
 

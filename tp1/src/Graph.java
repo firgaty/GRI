@@ -4,6 +4,7 @@ class Graph implements IGraph {
 
     private int[][] adjacencyLists;
     private boolean oriented;
+    private int nb_edge;
 
     /**
      * Create new graph of n vertices
@@ -19,6 +20,12 @@ class Graph implements IGraph {
         this.oriented = oriented;
     }
 
+    public Graph(int n, boolean oriented, int nb_edge) {
+        this.adjacencyLists = new int[n][];
+        this.oriented = oriented;
+        this.nb_edge = nb_edge;
+    }
+
     @Override
     public int edgeCount() {
         int count = 0;
@@ -28,6 +35,10 @@ class Graph implements IGraph {
             }
         }
         return count;
+    }
+
+    public int get_nb_edge() {
+        return this.nb_edge;
     }
 
     @Override

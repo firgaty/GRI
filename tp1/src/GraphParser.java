@@ -13,6 +13,7 @@ public class GraphParser implements IGraphParser {
     public IGraph parse(String file, int maxNode, boolean oriented) {
         int[] from = new int[maxNode];
         int[] to = new int[maxNode];
+        int i = 0;
 
         BufferedReader objReader = null;
 
@@ -23,15 +24,18 @@ public class GraphParser implements IGraphParser {
             while ((strCurrentLine = objReader.readLine()) != null && strCurrentLine.charAt(0) == '#')
                 ;
 
-            for (int i = 0; i < maxNode && strCurrentLine != null; i++, strCurrentLine = objReader.readLine()) {
+            while (i < maxNode && strCurrentLine != null) {
                 Matcher matcher = pattern.matcher(strCurrentLine);
 
                 if (matcher.find()) {
                     from[i] = Integer.parseInt(matcher.group(1));
                     to[i] = Integer.parseInt(matcher.group(2));
                 } else {
+                    System.out.println(i);
                     break;
                 }
+                i++;
+                strCurrentLine = objReader.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,11 +48,12 @@ public class GraphParser implements IGraphParser {
             }
         }
 
-        // O(n log n)
-        return graphFromArrays(from, to, oriented);
+        // O(n log n) 
+        Memory.mem();
+        return graphFromArrays(from, to, oriented, i);
     }
 
-    private IGraph graphFromArrays(int[] from, int[] to, boolean oriented) {
+    private IGraph graphFromArrays(int[] from, int[] to, boolean oriented, int nb_edges) {
         Integer[] idx;
         // Calculate nodes
         int max = 0;
@@ -138,8 +143,9 @@ public class GraphParser implements IGraphParser {
         System.gc();
 
         // Create graph
-        IGraph g = new Graph(max + 1, oriented);
-
+        IGraph g = new Graph(max + 1, oriented, nb_edges);
+        System.out.println("n="+(max + 1));
+        System.out.println("m="+nb_edges);
         // O(n)
         int inf = 0;
         // Pass null values
@@ -171,6 +177,7 @@ public class GraphParser implements IGraphParser {
         }
 
         //System.out.println("Ok!");
+        Memory.mem();
         return g;
     }
 
