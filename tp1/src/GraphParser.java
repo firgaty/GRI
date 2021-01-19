@@ -230,17 +230,17 @@ public class GraphParser implements IGraphParser {
     //     return false;
     // }
 
-    private int compare(final int idx, final int fromVal, final int toVal, final int[] from, final int[] to) {
-        if (from[idx] < fromVal)
-            return -1;
-        if (from[idx] > fromVal)
-            return 1;
-        if (to[idx] < toVal)
-            return -1;
-        if (to[idx] > toVal)
-            return 1;
-        return 0;
-    }
+    // private int compare(final int idx, final int fromVal, final int toVal, final int[] from, final int[] to) {
+    //     if (from[idx] < fromVal)
+    //         return -1;
+    //     if (from[idx] > fromVal)
+    //         return 1;
+    //     if (to[idx] < toVal)
+    //         return -1;
+    //     if (to[idx] > toVal)
+    //         return 1;
+    //     return 0;
+    // }
 
     public static void main(String[] args) {
         String file = "web-BerkStan.txt";
