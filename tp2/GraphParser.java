@@ -211,44 +211,13 @@ public class GraphParser implements IGraphParser {
         });
     }
 
-    // private boolean contains(final int[] from, final int[] to, final int keyA, final int keyB, int high) {
-    //     int low = 0;
-
-    //     while (low <= high) {
-    //         int mid = (low + high) / 2;
-    //         int comp = compare(mid, keyA, keyB, from, to);
-
-    //         if (comp < 0) {
-    //             low = mid + 1;
-    //         } else if (comp > 0) {
-    //             high = mid - 1;
-    //         } else if (comp == 0) {
-    //             return true;
-    //         }
-    //     }
-
-    //     return false;
-    // }
-
-    // private int compare(final int idx, final int fromVal, final int toVal, final int[] from, final int[] to) {
-    //     if (from[idx] < fromVal)
-    //         return -1;
-    //     if (from[idx] > fromVal)
-    //         return 1;
-    //     if (to[idx] < toVal)
-    //         return -1;
-    //     if (to[idx] > toVal)
-    //         return 1;
-    //     return 0;
-    // }
-
     public static void main(String[] args) {
         String file = "web-BerkStan.txt";
         // IGraph g = gf.parse(args[0], Integer.parseInt(args[1]),false);
         GraphParser gf = new GraphParser();
 
         // IGraph g = gf.parse(file, 28980, false);
-        IGraph g = gf.parse(file, 7600595, false);
+        gf.parse(file, 7600595, false);
     }
 
 }
