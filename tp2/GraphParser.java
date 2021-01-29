@@ -50,7 +50,7 @@ public class GraphParser implements IGraphParser {
         }
 
         // O(n log n)
-        Memory.mem();
+        // Memory.mem();
         return graphFromArrays(from, to, oriented, i);
     }
 
@@ -160,8 +160,8 @@ public class GraphParser implements IGraphParser {
 
         // Create graph
         IGraph g = new Graph(max + 1, oriented);
-        System.out.println("n=" + (max + 1));
-        System.out.println("m=" + nb_edges);
+        // System.out.println("n=" + (max + 1));
+        // System.out.println("m=" + nb_edges);
         // O(n)
         int inf = 0;
         // Pass null values

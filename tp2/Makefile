@@ -6,10 +6,15 @@ JC = javac
 	$(JC) $*.java
 
 CLASSES = \
-		  TP1.java \
+		  TP2.java \
 		  Memory.java \
 		  GraphParser.java \
-		  Graph.java
+		  Graph.java \
+		  FourSweep.java \
+		  TwoSweep.java \
+		  TakesKosterSweep.java \
+		  SumSweep.java \
+		  
 
 default: classes
 
