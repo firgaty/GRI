@@ -2,7 +2,7 @@ import graph.IGraph;
 import graph.parser.GraphParser;
 import graph.sweep.FourSweep;
 import graph.sweep.IGraphSweep;
-import graph.sweep.TakesKosterSweep;
+import graph.sweep.TakesKostersSweep;
 import graph.sweep.TwoSweep;
 
 public class TP2 {
@@ -36,7 +36,7 @@ public class TP2 {
                 break;
             }
             case "diametre": {
-                sweep = new TakesKosterSweep();
+                sweep = new TakesKostersSweep();
                 prefix += "=";
                 break;
             }
