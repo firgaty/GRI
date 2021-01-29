@@ -1,9 +1,15 @@
+package graph.parser;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import graph.Graph;
+import graph.IGraph;
+
 import java.lang.System;
 
 public class GraphParser implements IGraphParser {

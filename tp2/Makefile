@@ -7,13 +7,13 @@ JC = javac
 
 CLASSES = \
 		  TP2.java \
-		  Memory.java \
-		  GraphParser.java \
-		  Graph.java \
-		  FourSweep.java \
-		  TwoSweep.java \
-		  TakesKosterSweep.java \
-		  SumSweep.java \
+		  memory/Memory.java \
+		  graph/parser/GraphParser.java \
+		  graph/Graph.java \
+		  graph/sweep/FourSweep.java \
+		  graph/sweep/TwoSweep.java \
+		  graph/sweep/TakesKosterSweep.java \
+		  graph/sweep/SumSweep.java \
 		  
 
 default: classes
@@ -22,6 +22,8 @@ classes: $(CLASSES:.java=.class)
 
 clean:
 	$(RM) *.class
+	$(RM) */*.class
+	$(RM) */*/*.class
 	
 run:
 	java main

@@ -1,3 +1,10 @@
+import graph.IGraph;
+import graph.parser.GraphParser;
+import graph.sweep.FourSweep;
+import graph.sweep.IGraphSweep;
+import graph.sweep.TakesKosterSweep;
+import graph.sweep.TwoSweep;
+
 public class TP2 {
 
     public static void main(String args[]) {

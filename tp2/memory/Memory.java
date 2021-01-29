@@ -1,3 +1,5 @@
+package memory;
+
 public class Memory {
     public static void mem() {
         Runtime rt = Runtime.getRuntime();

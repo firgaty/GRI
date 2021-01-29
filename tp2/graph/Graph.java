@@ -1,6 +1,10 @@
+package graph;
+
 import java.util.*;
 
-class Graph implements IGraph {
+import memory.Memory;
+
+public class Graph implements IGraph {
 
     private int[][] adjacencyLists;
     private boolean oriented;
@@ -77,8 +81,9 @@ class Graph implements IGraph {
 
     @Override
     public int distance(int u, int v) {
-        if(u == v) return 0;
-        //Si on ne trouve pas de chemin on renvoie le plus grand entier possible
+        if (u == v)
+            return 0;
+        // Si on ne trouve pas de chemin on renvoie le plus grand entier possible
         int dist = 2147483647;
         // initialisation
         Deque<Integer> File = new ArrayDeque<Integer>(adjacencyLists.length);
