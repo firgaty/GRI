@@ -13,23 +13,20 @@ public class TakesKostersSweep implements IGraphSweep {
     public int sweep(IGraph g, int u) {
         int diamlow = 0;
 
-        boolean[] marked = new boolean[g.verticesCount()];
-        dfs(g, u, marked);
-
         int[] eccsup = new int[g.verticesCount()];
         Arrays.fill(eccsup, Integer.MAX_VALUE);
 
-        return _sweep(g, marked, eccsup, diamlow, u);
+        return _sweep(g, eccsup, diamlow, u);
     }
 
-    private int _sweep(IGraph g, boolean[] marked, int[] eccsup, int diamlow, int u) {
+    private int _sweep(IGraph g, int[] eccsup, int diamlow, int u) {
         if (eccsup[u] <= diamlow) {
             return diamlow;
         }
 
-        int[] distance = new int[marked.length];
+        int[] distance = new int[eccsup.length];
 
-        bfs(g, u, distance);
+        boolean[] marked = bfs(g, u, distance);
 
         int[] ecc = max(distance);
 
@@ -46,21 +43,10 @@ public class TakesKostersSweep implements IGraphSweep {
             }
         }
 
-        return _sweep(g, marked, eccsup, diamlow, ecc[0]);
+        return _sweep(g, eccsup, diamlow, ecc[0]);
     }
 
-    private void dfs(IGraph g, int u, boolean[] marked) {
-        marked[u] = true;
-
-        for (int v : g.adjacencyList(u)) {
-            if (!marked[v]) {
-                marked[v] = true;
-                dfs(g, v, marked);
-            }
-        }
-    }
-
-    private void bfs(IGraph g, int u, int[] distance) {
+    private boolean[] bfs(IGraph g, int u, int[] distance) {
         boolean[] marked = new boolean[distance.length];
         LinkedList<Integer> queue = new LinkedList<Integer>();
 
@@ -82,6 +68,8 @@ public class TakesKostersSweep implements IGraphSweep {
                 }
             }
         }
+
+        return marked;
     }
 
     private int[] max(int[] array) {
