@@ -11,18 +11,15 @@ public class TwoSweep implements IGraphSweep {
     @Override
     public int sweep(IGraph g, int u) {
         Point firstBFS = BFS_max(g, u);
-        int v = (int)firstBFS.getX();
-        Point sdBFS = BFS_max(g, v); 
-        int w = (int)sdBFS.getX();
-        int dist = (int)sdBFS.getY();
-        //System.out.println("v : "+v);
-        //System.out.println("w : "+w);
-        //System.out.println("dist >= "+dist);
+        int v = (int) firstBFS.getX();
+        Point sdBFS = BFS_max(g, v);
+        int w = (int) sdBFS.getX();
+        int dist = (int) sdBFS.getY();
+
         return dist; // TODO
     }
 
-
-   public Point BFS_max(IGraph g,int u){
+    public Point BFS_max(IGraph g, int u) {
         // initialisation
         int t = g.verticesCount();
         Deque<Integer> File = new ArrayDeque<Integer>(t);
@@ -38,7 +35,8 @@ public class TwoSweep implements IGraphSweep {
 
         while (!File.isEmpty()) {
             s = File.poll();
-            int [] voisins = g.adjacencyList(s);
+            int[] voisins = g.adjacencyList(s);
+
             // On ajoute ses voisins a la File
             for (int j = 0; j < voisins.length; j++) {
                 // Si pas marque on l'ajoute
@@ -57,7 +55,6 @@ public class TwoSweep implements IGraphSweep {
             dist++;
         }
 
-        return new Point(v,dist);
-
+        return new Point(v, dist);
     }
 }

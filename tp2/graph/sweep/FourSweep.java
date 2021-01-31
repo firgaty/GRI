@@ -3,6 +3,7 @@ package graph.sweep;
 import graph.IGraph;
 import java.awt.Point;
 import java.util.*;
+
 /**
  * EXO 2
  */
@@ -10,21 +11,20 @@ public class FourSweep implements IGraphSweep {
     @Override
     public int sweep(IGraph g, int u) {
         Point firstBFS = BFS_max(g, u);
-        int v = (int)firstBFS.getX();
-        
-        int m = demi_BFS(g,v);
+        int v = (int) firstBFS.getX();
+
+        int m = demi_BFS(g, v);
 
         firstBFS = BFS_max(g, m);
-        v = (int)firstBFS.getX();
-        Point sdBFS = BFS_max(g, v); 
-        int w = (int)sdBFS.getX();
-        int dist = (int)sdBFS.getY();
+        v = (int) firstBFS.getX();
+        Point sdBFS = BFS_max(g, v);
+        int w = (int) sdBFS.getX();
+        int dist = (int) sdBFS.getY();
 
         return dist; // TODO
     }
 
-
-   public Point BFS_max(IGraph g,int u){
+    public Point BFS_max(IGraph g, int u) {
         // initialisation
         int t = g.verticesCount();
         Deque<Integer> File = new ArrayDeque<Integer>(t);
@@ -40,7 +40,7 @@ public class FourSweep implements IGraphSweep {
 
         while (!File.isEmpty()) {
             s = File.poll();
-            int [] voisins = g.adjacencyList(s);
+            int[] voisins = g.adjacencyList(s);
             // On ajoute ses voisins a la File
             for (int j = 0; j < voisins.length; j++) {
                 // Si pas marque on l'ajoute
@@ -59,11 +59,11 @@ public class FourSweep implements IGraphSweep {
             dist++;
         }
 
-        return new Point(v,dist);
+        return new Point(v, dist);
 
     }
 
-    public int demi_BFS(IGraph g, int u){
+    public int demi_BFS(IGraph g, int u) {
         // initialisation
         int t = g.verticesCount();
         Deque<Integer> File = new ArrayDeque<Integer>(t);
@@ -79,7 +79,7 @@ public class FourSweep implements IGraphSweep {
 
         while (!File.isEmpty()) {
             s = File.poll();
-            int [] voisins = g.adjacencyList(s);
+            int[] voisins = g.adjacencyList(s);
             // On ajoute ses voisins a la File
             for (int j = 0; j < voisins.length; j++) {
                 // Si pas marque on l'ajoute
@@ -90,7 +90,7 @@ public class FourSweep implements IGraphSweep {
             }
         }
 
-        //on calcule la distance parcourue
+        // on calcule la distance parcourue
         int dist = 0;
         v = s;
         while (s != u) {
@@ -98,10 +98,10 @@ public class FourSweep implements IGraphSweep {
             dist++;
         }
 
-        //on cherche le milieu du chemin u,v
+        // on cherche le milieu du chemin u,v
         int middle = 0;
         s = v;
-        while(middle < dist/2){
+        while (middle < dist / 2) {
             s = parents[s];
             middle++;
         }
