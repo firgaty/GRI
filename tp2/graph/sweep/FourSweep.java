@@ -18,10 +18,9 @@ public class FourSweep implements IGraphSweep {
         firstBFS = BFS_max(g, m);
         v = (int) firstBFS.getX();
         Point sdBFS = BFS_max(g, v);
-        int w = (int) sdBFS.getX();
         int dist = (int) sdBFS.getY();
 
-        return dist; // TODO
+        return dist;
     }
 
     public Point BFS_max(IGraph g, int u) {
@@ -51,7 +50,7 @@ public class FourSweep implements IGraphSweep {
             }
         }
 
-        // Si c'est le sommet voulu on s'arrete et on calcule la distance parcourue
+        // Si c'est le sommet voulu on s'arr^te et on calcule la distance parcourue
         int dist = 0;
         v = s;
         while (s != u) {
