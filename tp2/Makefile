@@ -12,7 +12,7 @@ CLASSES = \
 		  graph/Graph.java \
 		  graph/sweep/FourSweep.java \
 		  graph/sweep/TwoSweep.java \
-		  graph/sweep/TakesKosterSweep.java \
+		  graph/sweep/TakesKostersSweep.java \
 		  graph/sweep/SumSweep.java \
 		  
 
