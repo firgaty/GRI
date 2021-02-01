@@ -100,7 +100,7 @@ public class FourSweep implements IGraphSweep {
         // on cherche le milieu du chemin u,v
         int middle = 0;
         s = v;
-        while (middle < dist / 2) {
+        while (middle < dist / 2 - 1) {
             s = parents[s];
             middle++;
         }
