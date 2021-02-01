@@ -14,7 +14,7 @@ import java.lang.System;
 
 public class GraphParser implements IGraphParser {
 
-    final Pattern pattern = Pattern.compile("^(\\d+)\\s+(\\d+)$");
+    final Pattern pattern = Pattern.compile("^(\\d+)\\s+(\\d+)");
 
     @Override
     public IGraph parse(String file, int maxNode, boolean oriented) {
@@ -166,8 +166,7 @@ public class GraphParser implements IGraphParser {
 
         // Create graph
         IGraph g = new Graph(max + 1, oriented);
-        // System.out.println("n=" + (max + 1));
-        // System.out.println("m=" + nb_edges);
+        
         // O(n)
         int inf = 0;
         // Pass null values
