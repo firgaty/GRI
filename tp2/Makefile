@@ -14,6 +14,8 @@ CLASSES = \
 		  graph/sweep/TwoSweep.java \
 		  graph/sweep/TakesKostersSweep.java \
 		  graph/sweep/SumSweep.java \
+		  graph/algorithms/ConnectCalculator.java \
+		  graph/sweep/DefaultSweep.java
 		  
 
 default: classes
