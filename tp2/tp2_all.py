@@ -7,6 +7,8 @@ import urllib
 
 base_url = "https://snap.stanford.edu/data/"
 base_url2 = "https://snap.stanford.edu/data/bigdata/communities/"
+base_url3 = "https://who.rocq.inria.fr/Laurent.Viennot/t/"
+
 dest_folder = "resources/graph/"
 
 file_urls = [
@@ -21,13 +23,13 @@ file_urls = [
     ("email-Enron.txt.gz", 183831),
     ("soc-pokec-relationships.txt.gz", 30622564),
     ("web-BerkStan.txt.gz", 7600595),
-    # ("bigdeg.txt", 0), # Can't find it
+    # ("bigdeg.txt.gz", 0), # Can't find it
 ]
 
 final_paths = []
 results = []
 
-
+# Download
 for file, _ in file_urls:
     final_name = file
 
@@ -45,16 +47,21 @@ for file, _ in file_urls:
             try:
                 wget.download(base_url2 + file, dest_folder)
             except urllib.error.HTTPError:
-                print(f"File not found: {file}")
+                try:
+                    wget.download(base_url3 + file, dest_folder)
+                except urllib.error.HTTPError:
+                    print(f"File not found: {file}")
 
     if not final_path.exists():
         subprocess.run(
             ["gzip", "-dv", path],
         )
-        
+
+# Make
 subprocess.run(["make"])
 total = len(final_paths)
 
+# Run
 for i, p in enumerate(final_paths):
     args = [
             "java",
@@ -76,6 +83,7 @@ for i, p in enumerate(final_paths):
     print(result.stdout.decode("utf-8"))
     results.append([file_urls[i][0]] + result.stdout.decode("utf-8").split("\n")[:4])
 
+# Write results
 with open("resultats.txt", "w") as file:
     file.write("#graph\t2-sweep\t4-sweep\tsum-sweep\texact\n")
 
