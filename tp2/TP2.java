@@ -2,8 +2,10 @@ import graph.IGraph;
 import graph.parser.GraphParser;
 import graph.sweep.FourSweep;
 import graph.sweep.IGraphSweep;
+import graph.sweep.SumSweep;
 import graph.sweep.TakesKostersSweep;
 import graph.sweep.TwoSweep;
+import graph.algorithms.ConnectCalculator;
 
 public class TP2 {
 
@@ -19,6 +21,10 @@ public class TP2 {
         IGraphSweep sweep;
         String prefix = "diam";
 
+        if (u == -1) {
+            u = new ConnectCalculator().baseMaxConnectedNode(g);
+        }
+
         switch (type) {
             case "2-sweep": {
                 sweep = new TwoSweep();
@@ -31,7 +37,7 @@ public class TP2 {
                 break;
             }
             case "sum-sweep": {
-                sweep = new FourSweep();
+                sweep = new SumSweep();
                 prefix += ">=";
                 break;
             }
@@ -39,6 +45,20 @@ public class TP2 {
                 sweep = new TakesKostersSweep();
                 prefix += "=";
                 break;
+            }
+            case "all": {
+                IGraphSweep[] sweeps = {
+                    new TwoSweep(),
+                    new FourSweep(),
+                    new SumSweep(),
+                    new TakesKostersSweep()
+                };
+
+                for (IGraphSweep s : sweeps) {
+                    System.out.println(Integer.toString(s.sweep(g, u)));
+                }
+
+                return;
             }
             default: {
                 return;
