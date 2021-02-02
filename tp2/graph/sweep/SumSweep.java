@@ -9,23 +9,16 @@ import java.util.*;
 public class SumSweep implements IGraphSweep {
     @Override
     public int sweep(IGraph g, int u) {
-    	int[] distances_u = GetBfsDistances(BFS_parents(g, u));
-    	int v = Get_Ecc(distances_u);
+    	int ecc_max = 0;
+    	int[] t = {0,u};
+    	int[] sumdist = new int[g.verticesCount()];
 
-    	int[] distances_v = GetBfsDistances(BFS_parents(g, v));
-    	int w = Get_Ecc(distances_v);
+    	for (int i = 0; i < 4; i++) {
+    		SumDistAndEcc(t, BFS_parents(g, t[1]), sumdist);
+    		ecc_max = t[0] > ecc_max ? t[0]:ecc_max;
+    	}
 
-    	int[] distances_w = GetBfsDistances(BFS_parents(g, w));
-    	int x = Get_Ecc(distances_w);
-
-    	int[] distances_x = GetBfsDistances(BFS_parents(g, x));
-    	int t = Get_Ecc(distances_x);
-
-    	int max = distances_u[v];
-    	max = max < distances_v[w] ? distances_v[w]:max;
-    	max = max < distances_w[x] ? distances_w[x]:max;
-    	max = max < distances_x[t] ? distances_x[t]:max;
-        return max; // TODO
+    	return ecc_max;
     }
 
     public int[] BFS_parents(IGraph g,int u){
@@ -57,7 +50,7 @@ public class SumSweep implements IGraphSweep {
 		return parents;
     }
 
-    public int[] GetBfsDistances(int[] parents){
+    public void SumDistAndEcc(int[] t, int[] parents, int[] sumdist){
 		int i = 0;
 		int n = parents.length;
 		int[] dist = new int[n];
@@ -71,24 +64,28 @@ public class SumSweep implements IGraphSweep {
 				int b = parents[i];
 				while(a!=b & a!=-2 & b!=-2){
 					dist[i] += 1;
+					sumdist[i] += 1;
 					a = parents[a];
 					b = parents[b];
 				}
 			}
 			i++;
 		}
-		return dist;
-	}
 
-	public int Get_Ecc(int[] distances){
-		int max = 0;
-		int ecc = -4;
-		for (int j = 0; j < distances.length; j++){
-			if (distances[j] > max) {
-				max = distances[j];
-				ecc = j;
+		int max_sumdist = 0;
+		int next = -4;
+		int max_ecc = -4;
+		for (int j = 0; j < dist.length; j++){
+			if (dist[j] > max_ecc) {
+				max_ecc = dist[j];
+			}
+			if (sumdist[j] > max_sumdist) {
+				max_sumdist = sumdist[j];
+				next = j;
 			}
 		}
-		return ecc;
+		t[0] = max_ecc;
+		t[1] = next;
 	}
+
 }
