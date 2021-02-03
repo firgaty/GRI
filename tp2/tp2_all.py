@@ -7,7 +7,7 @@ import urllib
 
 base_url = "https://snap.stanford.edu/data/"
 base_url2 = "https://snap.stanford.edu/data/bigdata/communities/"
-# base_url3 = "https://who.rocq.inria.fr/Laurent.Viennot/t/"
+base_url3 = "https://who.rocq.inria.fr/Laurent.Viennot/t/"
 
 dest_folder = "resources/graph/"
 
@@ -64,16 +64,16 @@ total = len(final_paths)
 # Run
 for i, p in enumerate(final_paths):
     args = [
-            "java",
-            "-Xms700M",
-            "-Xmx700M",
-            "TP2",
-            "all",
-            str(p),
-            str(file_urls[i][1]),
-            "-1",
-        ]
-    
+        "java",
+        "-Xms700M",
+        "-Xmx700M",
+        "TP2",
+        "all",
+        str(p),
+        str(file_urls[i][1]),
+        "-1",
+    ]
+
     print(f"( {i + 1:>2}/ {total:>2}) {p}: {' '.join(args)}")
     result = subprocess.run(
         args,
