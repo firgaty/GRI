@@ -1,8 +1,9 @@
 package graph.sweep;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 import graph.IGraph;
-import java.awt.Point;
-import java.util.*;
 
 /**
  * EXO 2
@@ -10,101 +11,73 @@ import java.util.*;
 public class FourSweep implements IGraphSweep {
     @Override
     public int sweep(IGraph g, int u) {
-        Point firstBFS = BFS_max(g, u);
-        int v = (int) firstBFS.getX();
+        int[] parents = new int[g.verticesCount()];
+        
+        int v = bfs(g, u, parents);
+        int w = bfs(g, v, parents);
 
-        int m = demi_BFS(g, v);
+        int distVW = dist(v, w, parents);
+        int mid = nParent(w, distVW / 2, parents);
 
-        firstBFS = BFS_max(g, m);
-        v = (int) firstBFS.getX();
-        Point sdBFS = BFS_max(g, v);
-        int dist = (int) sdBFS.getY();
+        int x = bfs(g, mid, parents);
+        int y = bfs(g, x, parents);
 
-        return dist;
+        return dist(x, y, parents);
     }
 
-    public Point BFS_max(IGraph g, int u) {
-        // initialisation
-        int t = g.verticesCount();
-        Deque<Integer> File = new ArrayDeque<Integer>(t);
-        int[] parents = new int[t];
-        for (int i = 0; i < t; i++) {
-            parents[i] = -1;
-        }
+    /**
+     * BFS
+     * 
+     * @param g       GRaph
+     * @param u       Start node
+     * @param parents parents list
+     * @return last_node
+     */
+    private int bfs(IGraph g, int u, int[] parents) {
+        Arrays.fill(parents, -1);
+        LinkedList<Integer> queue = new LinkedList<Integer>();
 
-        File.add(u);
-        parents[u] = -2;
-        int s = u;
-        int v;
+        queue.add(u);
+        parents[u] = Integer.MAX_VALUE;
+        int out = -1;
 
-        while (!File.isEmpty()) {
-            s = File.poll();
-            int[] voisins = g.adjacencyList(s);
-            // On ajoute ses voisins a la File
-            for (int j = 0; j < voisins.length; j++) {
-                // Si pas marque on l'ajoute
-                if (parents[voisins[j]] == -1) {
-                    File.addLast(voisins[j]);
-                    parents[voisins[j]] = s;
+        while (!queue.isEmpty()) {
+            int v = queue.removeFirst();
+            out = v;
+
+            if (g.adjacencyList(u) == null) {
+                continue;
+            }
+
+            for (int w : g.adjacencyList(v)) {
+                if (parents[w] < 0) {
+                    parents[w] = v;
+                    queue.addLast(w);
                 }
             }
         }
 
-        // Si c'est le sommet voulu on s'arr^te et on calcule la distance parcourue
-        int dist = 0;
-        v = s;
-        while (s != u) {
-            s = parents[s];
-            dist++;
-        }
-
-        return new Point(v, dist);
-
+        return out;
     }
 
-    public int demi_BFS(IGraph g, int u) {
-        // initialisation
-        int t = g.verticesCount();
-        Deque<Integer> File = new ArrayDeque<Integer>(t);
-        int[] parents = new int[t];
-        for (int i = 0; i < t; i++) {
-            parents[i] = -1;
+    private int dist(int from, int to, int[] parents) {
+        int i = 0;
+        int u = to;
+        while (u != from) {
+            u = parents[u];
+            i++;
         }
-
-        File.add(u);
-        parents[u] = -2;
-        int s = u;
-        int v;
-
-        while (!File.isEmpty()) {
-            s = File.poll();
-            int[] voisins = g.adjacencyList(s);
-            // On ajoute ses voisins a la File
-            for (int j = 0; j < voisins.length; j++) {
-                // Si pas marque on l'ajoute
-                if (parents[voisins[j]] == -1) {
-                    File.addLast(voisins[j]);
-                    parents[voisins[j]] = s;
-                }
-            }
-        }
-
-        // on calcule la distance parcourue
-        int dist = 0;
-        v = s;
-        while (s != u) {
-            s = parents[s];
-            dist++;
-        }
-
-        // on cherche le milieu du chemin u,v
-        int middle = 0;
-        s = v;
-        while (middle < dist / 2) {
-            s = parents[s];
-            middle++;
-        }
-
-        return s;
+        return i;
     }
+
+    private int nParent(int to, int n, int[] parents) {
+        int u = to;
+
+        for (int i = 0; i < n; i++) {
+            u = parents[u];
+        }
+
+        return u;
+    }
+
 }
