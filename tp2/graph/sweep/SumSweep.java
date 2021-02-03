@@ -33,7 +33,6 @@ public class SumSweep implements IGraphSweep {
         File.add(u);
         parents[u] = -2;
         int s = u;
-        int v;
 
         while (!File.isEmpty()) {
             s = File.poll();

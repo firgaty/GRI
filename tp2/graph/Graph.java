@@ -1,8 +1,7 @@
 package graph;
 
 import java.util.*;
-
-import memory.Memory;
+import java.util.stream.IntStream;
 
 public class Graph implements IGraph {
 
@@ -44,6 +43,7 @@ public class Graph implements IGraph {
         return adjacencyLists.length;
     }
 
+    @Override
     public int degree(int v) {
         int sortant;
         if (adjacencyLists[v] != null) {
@@ -68,18 +68,18 @@ public class Graph implements IGraph {
         return sortant + entrant;
     }
 
-    @Override
+    // @Override
     public int degreeMax() {
         int max = 0;
         for (int i = 0; i < adjacencyLists.length; i++) {
-            int degre = degree(i);
-            if (degre > max)
-                max = degre;
+            int degree = degree(i);
+            if (degree > max)
+                max = degree;
         }
         return max;
     }
 
-    @Override
+    // @Override
     public int distance(int u, int v) {
         if (u == v)
             return 0;
@@ -98,7 +98,7 @@ public class Graph implements IGraph {
         while (!File.isEmpty()) {
             int s = File.poll();
 
-            // Si c'est le sommet voulu on s'arrete et on calcule la distance parcourue
+            // Si c'est le sommet voulu on s'arrête et on calcule la distance parcourue
             if (s == v) {
                 dist = 0;
                 while (s != u) {
@@ -127,38 +127,35 @@ public class Graph implements IGraph {
         return adjacencyLists[u];
     }
 
-    @Override
+    public Iterable<Integer> adjacencyListIter(int u) {
+        return new Iterable<Integer>() {
+            public Iterator<Integer> iterator() {
+                return new Iterator<Integer>() {
+                    int curr = 0;
+
+                    public boolean hasNext() {
+                        return curr < adjacencyLists[u].length;
+                    }
+
+                    public Integer next() {
+                        if (curr >= adjacencyLists[u].length) {
+                            throw new NoSuchElementException();
+                        }
+                        return adjacencyLists[u][curr++];
+                    }
+                    // UnsupportedOperationException
+                };
+            }
+        };
+    }
+
+    // @Override
     public void addEdges(int u, int[] edges) {
         adjacencyLists[u] = edges;
     }
 
-    @Override
-    public void addEdge(int u, int v) {
-        if (adjacencyLists[u] == null) {
-            adjacencyLists[u] = new int[] { v };
-            return;
-        }
-
-        int[] newList = new int[adjacencyLists[u].length + 1];
-
-        for (int i = 0; i < adjacencyLists[u].length; i++) {
-            newList[i] = adjacencyLists[u][i];
-        }
-
-        newList[adjacencyLists[u].length] = v;
-
-        adjacencyLists[u] = newList;
-    }
-
-    @Override
-    public boolean hasEdge(int u, int v) {
-        if (adjacencyLists[u] != null) {
-            for (int e : adjacencyLists[u])
-                if (e == v)
-                    return true;
-        }
-
-        return false;
+    public Iterator<Integer> iterator() {
+        return IntStream.range(0, adjacencyLists.length).iterator();
     }
 
     @Override
@@ -171,20 +168,5 @@ public class Graph implements IGraph {
         }
 
         return s;
-    }
-
-    public static void main(String[] args) {
-
-        IGraph g = new Graph(3, false);
-
-        g.addEdges(0, new int[] { 1, 2 });
-        g.addEdge(1, 2);
-        g.addEdge(2, 1);
-        Memory.mem();
-        System.out.println("n=" + g.verticesCount());
-        System.out.println("m=" + g.edgeCount());
-        Memory.mem();
-        System.out.println("degmax=" + g.degreeMax());
-        System.out.println("dist=" + g.distance(0, 2));
     }
 }
