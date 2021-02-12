@@ -6,30 +6,27 @@ import java.util.Arrays;
 public class Triangles {
 	Boolean[] neighbour;
 
-	public int triangles(IGraph g, int u) {
-		neighbour = new Boolean[g.verticesCount()];
-		Arrays.fill(neighbour, Boolean.FALSE);
-		int[] uNeighbour = g.adjacencyList(u);
+    public Triangles (int vertices_count){
+    	neighbour = new Boolean[vertices_count];
+    }
 
-		for (int i = 0; i < uNeighbour.length; i++) {
-			neighbour[uNeighbour[i]] = Boolean.TRUE;
-		}
+    public int find_triangles(IGraph g, int u){
+    	Arrays.fill(neighbour, Boolean.FALSE);
 
-		return findTriangles(g, u, uNeighbour);
-	}
+    	int[] u_adj_lst = g.adjacencyList(u);
+    	for (int n : u_adj_lst) {
+    		neighbour[n] = Boolean.TRUE;
+    	}
 
-	private int findTriangles(IGraph g, int u, int[] uNeighbour) {
-		int total = 0;
-
-		for (int i = 0; i < uNeighbour.length; i++) {
-			int[] uuNeighbour = g.adjacencyList(uNeighbour[i]);
-			for (int j = 0; j < uuNeighbour.length; j++) {
-				if (neighbour[uuNeighbour[j]])
-					total++;
-			}
-		}
-
-		return total / 2;
-	}
+    	int total = 0;
+    	for (int x : u_adj_lst) {
+    		int[] neighbour_of_x = g.adjacencyList(x);
+    		for (int z : neighbour_of_x) {
+    			if (neighbour[z])
+    				total++;
+    		}
+    	}
+    	return total / 2;
+    }
 
 }

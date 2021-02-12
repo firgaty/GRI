@@ -25,8 +25,8 @@ public class TP3 {
 
         switch (type) {
             case "triangles": {
-                Triangles t = new Triangles();
-                out = t.triangles(g, u);
+                Triangles t = new Triangles(g.verticesCount());
+                out = t.find_triangles(g,u);
                 System.out.println(out);
                 return;
             }
