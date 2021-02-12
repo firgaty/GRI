@@ -5,13 +5,15 @@ import java.util.Arrays;
 
 public class Triangles {
 	boolean[] neighbour;
+	IGraph g;
 
-	public Triangles(int vertices_count) {
-		neighbour = new boolean[vertices_count];
+	public Triangles(IGraph g) {
+		this.g = g;
+		neighbour = new boolean[g.verticesCount()];
 		Arrays.fill(neighbour, false);
 	}
 
-	public int find_triangles(IGraph g, int u) {
+	public int triangles(int u) {
 		for (int n : g.adjacencyListIter(u)) {
 			neighbour[n] = Boolean.TRUE;
 		}
