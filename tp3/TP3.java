@@ -32,15 +32,15 @@ public class TP3 {
             }
             case "clust": {
                 Cluster c = new Cluster();
-                Point pOut = c.clust(g);
-                System.out.println(pOut.getX());
-                System.out.println(pOut.getY());
+                int[] out_array = c.clust(g);
+                System.out.println(out_array[0]);
+                System.out.println(out_array[1]);
             }
             case "k-coeur": {
                 Coeur c = new Coeur();
-                Point pOut = c.kCoeur(g);
-                System.out.println(pOut.getX());
-                System.out.println(pOut.getY());
+                int[] out_array = c.kCoeur(g);
+                System.out.println(out_array[0]);
+                System.out.println(out_array[1]);
 
             }
             default: {
