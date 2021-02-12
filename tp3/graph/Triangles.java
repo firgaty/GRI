@@ -7,12 +7,11 @@ public class Triangles {
 	boolean[] neighbour;
 
 	public Triangles(int vertices_count) {
-		neighbour = new Boolean[vertices_count];
+		neighbour = new boolean[vertices_count];
+		Arrays.fill(neighbour, false);
 	}
 
 	public int find_triangles(IGraph g, int u) {
-		Arrays.fill(neighbour, Boolean.FALSE);
-
 		for (int n : g.adjacencyListIter(u)) {
 			neighbour[n] = Boolean.TRUE;
 		}
@@ -23,6 +22,10 @@ public class Triangles {
 				if (neighbour[z])
 					total++;
 			}
+		}
+
+		for (int n : g.adjacencyListIter(u)) {
+			neighbour[n] = false;
 		}
 
 		return total / 2;
