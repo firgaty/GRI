@@ -4,18 +4,17 @@ import graph.IGraph;
 import java.util.Arrays;
 
 public class Triangles {
-	Boolean[] neighbour;
+	boolean[] neighbour;
 
     public Triangles (int vertices_count){
-    	neighbour = new Boolean[vertices_count];
+    	neighbour = new boolean[vertices_count];
+    	Arrays.fill(neighbour, false);
     }
 
     public int find_triangles(IGraph g, int u){
-    	Arrays.fill(neighbour, Boolean.FALSE);
-
     	int[] u_adj_lst = g.adjacencyList(u);
     	for (int n : u_adj_lst) {
-    		neighbour[n] = Boolean.TRUE;
+    		neighbour[n] = true;
     	}
 
     	int total = 0;
@@ -26,6 +25,11 @@ public class Triangles {
     				total++;
     		}
     	}
+
+    	for (int n : u_adj_lst) {
+    		neighbour[n] = false;
+    	}
+
     	return total / 2;
     }
 
