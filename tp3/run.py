@@ -155,9 +155,15 @@ total = len(final_paths)
 
 # Run
 
-path_and_names = sorted(walk_path(dest_folder), key=lambda x: x[0])
+path_and_names = sorted(
+    walk_path(dest_folder), key=lambda x: x[0] if x[1] != "test.txt" else ""
+)  # 'test.txt' devant
 total = len(path_and_names)
-functions = [("triangles", ["input_node"]), ("clust", []), ("k-coeur", [])]
+functions = [
+    ("triangles", ["input_node"]),
+    ("clust", []),
+    ("k-coeur", []),
+]  # (fonction: str, args: list[str])
 
 for i, path_name in enumerate(path_and_names):
     base_args = ["java", "-Xms700M", "-Xmx700M", "TP3"]
@@ -172,11 +178,11 @@ for i, path_name in enumerate(path_and_names):
 
         if func not in file_dict["expected_output"]:
             continue
-        
+
         for arg in args:
             added_args.append(str(file_dict[arg]))
 
-        print(f" |- {func}: {' '.join(base_args + added_args)}")
+        print(f" |- {func + ':':<10} {' '.join(base_args + added_args)}")
         result = subprocess.run(
             base_args + added_args,
             stdout=subprocess.PIPE,
@@ -188,7 +194,7 @@ for i, path_name in enumerate(path_and_names):
 
         for i, output in enumerate(file_dict["expected_output"][func]):
             if str(output) != result[i]:
-                output_str = map(str, file_dict['expected_output'][func])
+                output_str = map(str, file_dict["expected_output"][func])
                 print(
                     f" |- ! NOT OK: given ({', '.join(result)}) - expected ({', '.join(output_str)})"
                 )
