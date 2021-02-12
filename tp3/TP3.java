@@ -31,20 +31,21 @@ public class TP3 {
                 Triangles t = new Triangles(g);
                 out = t.triangles(u);
                 System.out.println(out);
-                return;
+                break;
             }
             case "clust": {
                 Cluster c = new Cluster();
                 float[] out_array = c.clust(g);
                 System.out.format("%.5f\n", out_array[0]);
                 System.out.format("%.5f\n", out_array[1]);
+                break;
             }
             case "k-coeur": {
                 Coeur c = new Coeur();
                 int[] out_array = c.kCoeur(g);
                 System.out.println(out_array[0]);
                 System.out.println(out_array[1]);
-
+                break;
             }
             default: {
                 return;
