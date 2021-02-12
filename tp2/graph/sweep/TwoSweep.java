@@ -14,7 +14,8 @@ public class TwoSweep implements IGraphSweep {
         int v = (int) firstBFS.getX();
         Point sdBFS = BFS_max(g, v);
         int dist = (int) sdBFS.getY();
-
+        System.out.println("v="+v);
+        System.out.println("w="+(int)sdBFS.getX());
         return dist;
     }
 
