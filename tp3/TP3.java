@@ -26,15 +26,15 @@ public class TP3 {
         switch (type) {
             case "triangles": {
                 Triangles t = new Triangles();
-                out = t.triangles(g,u);
+                out = t.triangles(g, u);
                 System.out.println(out);
                 return;
             }
             case "clust": {
                 Cluster c = new Cluster();
                 int[] out_array = c.clust(g);
-                System.out.println(out_array[0]);
-                System.out.println(out_array[1]);
+                System.out.format("%.5f\n", out_array[0]);
+                System.out.format("%.5f\n", out_array[1]);
             }
             case "k-coeur": {
                 Coeur c = new Coeur();
@@ -47,8 +47,6 @@ public class TP3 {
                 return;
             }
         }
-
-        
 
     }
 }
