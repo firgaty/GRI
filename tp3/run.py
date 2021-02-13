@@ -193,11 +193,17 @@ for i, path_name in enumerate(path_and_names):
         result = result.stdout.decode("utf-8").strip().split("\n")
 
         for i, output in enumerate(file_dict["expected_output"][func]):
-            if str(output) != result[i]:
-                output_str = map(str, file_dict["expected_output"][func])
+            if func == "clust" and f"{output:.5f}" != result[i]:
+                output_str = [f"{output:.5f}" for output in file_dict['expected_output'][func]]
                 print(
-                    f" |- ! NOT OK: given ({', '.join(result)}) - expected ({', '.join(output_str)})"
+                    f" |! NOT OK: given ({', '.join(result)}) - expected ({', '.join(output_str)})"
+                )
+                break
+            elif func != "clust" and str(output) != result[i]:
+                output_str = map(str, file_dict['expected_output'][func])
+                print(
+                    f" |! NOT OK: given ({', '.join(result)}) - expected ({', '.join(output_str)})"
                 )
                 break
         else:
-            print(" |- ! OK")
+            print(" |% OK")
