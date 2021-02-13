@@ -165,7 +165,13 @@ functions = [
     ("k-coeur", []),
 ]  # (fonction: str, args: list[str])
 
-for i, path_name in enumerate(path_and_names):
+results = {
+    "triangles": {"passed": [], "errors": []},
+    "clust": {"passed": [], "errors": []},
+    "k-coeur": {"passed": [], "errors": []},
+}
+
+for i, path_name in enumerate(path_and_names):  # FIXME
     base_args = ["java", "-Xms700M", "-Xmx700M", "TP3"]
 
     file_dict = files[path_name[1]]
@@ -194,16 +200,37 @@ for i, path_name in enumerate(path_and_names):
 
         for i, output in enumerate(file_dict["expected_output"][func]):
             if func == "clust" and f"{output:.5f}" != result[i]:
-                output_str = [f"{output:.5f}" for output in file_dict['expected_output'][func]]
+                output_str = [
+                    f"{output:.5f}" for output in file_dict["expected_output"][func]
+                ]
                 print(
                     f" |! NOT OK: given ({', '.join(result)}) - expected ({', '.join(output_str)})"
                 )
+                results[func]["errors"].append(path_name[1])
                 break
             elif func != "clust" and str(output) != result[i]:
-                output_str = map(str, file_dict['expected_output'][func])
+                output_str = map(str, file_dict["expected_output"][func])
                 print(
                     f" |! NOT OK: given ({', '.join(result)}) - expected ({', '.join(output_str)})"
                 )
+                results[func]["errors"].append(path_name[1])
                 break
         else:
             print(" |% OK")
+            results[func]["passed"].append(path_name[1])
+
+print("=== Summary ===")
+
+total_errors = sum([len(results[func]["errors"]) for func in results])
+total_ok = sum([len(results[func]["passed"]) for func in results])
+
+print(f"> % Passed: {total_ok:>2}\n> ! Errors: {total_errors:>2}")
+
+for func, _ in functions:
+    passed = len(results[func]['passed'])
+    errors = len(results[func]['errors'])
+    print(
+        f"= {func}\n |% Passed: {passed:>2}\n |! Errors: {errors:>2}"
+    )
+    for e in results[func]['errors']:
+        print(f" |- {e}")

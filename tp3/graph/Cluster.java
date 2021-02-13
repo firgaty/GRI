@@ -11,14 +11,11 @@ public class Cluster {
 
         int verticesCount = g.verticesCount();
         float meanClustering = 0;
-        int triangleCount = 0;
-        int vCount = 0;
+        int triangleCount = 0; // 3 * tri(G)
+        int vCount = 0; // nv(G)
 
         for (int i = 0; i < verticesCount; i++) {
             int deg = g.degree(i);
-
-            if (deg <= 0)
-                continue;
             
             if (deg > 1) {
                 int localTriangles = triangles.triangles(i);
@@ -28,17 +25,13 @@ public class Cluster {
                 triangleCount += localTriangles;
                 vCount += deg * (deg - 1);
             }
-
         }
 
         meanClustering /= verticesCount;
 
         out[0] = meanClustering;
 
-        // triangleCount = 3 * tri(G)
-        // nv = nv(G)
-
-        out[1] = triangleCount / (float) (vCount);
+        out[1] = (float) triangleCount / (float) (vCount);
 
         return out;
     }
