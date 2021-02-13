@@ -5,32 +5,44 @@ import java.util.Arrays;
 
 public class Triangles {
 	boolean[] neighbour;
+	boolean[] marked;
+	int[] count;
 	IGraph g;
 
 	public Triangles(IGraph g) {
 		this.g = g;
+
 		neighbour = new boolean[g.verticesCount()];
-		Arrays.fill(neighbour, false);
+		marked = new boolean[g.verticesCount()];
+		count = new int[g.verticesCount()];
 	}
 
 	public int triangles(int u) {
-		for (int n : g.adjacencyListIter(u)) {
-			neighbour[n] = Boolean.TRUE;
+		if (marked[u]) {
+			return count[u];
 		}
 
-		int total = 0;
-		for (int x : g.adjacencyListIter(u)) {
-			for (int z : g.adjacencyListIter(x)) {
-				if (neighbour[z])
-					total++;
+		marked[u] = true;
+
+		for (int n : g.adjacencyListIter(u)) {
+			if (!marked[n])
+				neighbour[n] = true;
+		}
+
+		for (int v : g.adjacencyListIter(u)) {
+			if (!marked[v]) {
+				for (int w : g.adjacencyListIter(v)) {
+					if (neighbour[w]) {
+						count[u]++;
+						count[v]++;
+						count[w]++;
+					}
+				}
+				neighbour[v] = false;
 			}
 		}
 
-		for (int n : g.adjacencyListIter(u)) {
-			neighbour[n] = false;
-		}
-
-		return total / 2;
+		return count[u];
 	}
 
 }
