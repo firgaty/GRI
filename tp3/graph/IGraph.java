@@ -1,6 +1,6 @@
 package graph;
 
-public interface IGraph extends Iterable<Integer>{
+public interface IGraph extends Iterable<Integer> {
 
     int edgeCount();
 
