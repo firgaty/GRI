@@ -20,7 +20,8 @@ CLASSES = \
 		  graph/AdvancedGraph.java \
 		  graph/Cluster.java \
 		  graph/Triangles.java \
-		  graph/Coeur.java
+		  graph/Coeur.java \
+		  graph/Pair.java
 		  
 
 default: classes
