@@ -23,7 +23,7 @@ public class Cluster {
 
                 meanClustering += localCluster;
                 triangleCount += localTriangles;
-                vCount += deg * (deg - 1);
+                vCount +=  deg * (deg - 1) * 0.5;
             }
         }
 
@@ -31,8 +31,8 @@ public class Cluster {
 
         out[0] = meanClustering;
 
-        out[1] = (float) triangleCount / (float) (vCount);
-
+        out[1] = (float) triangleCount /  (float) (vCount);
+        
         return out;
     }
 }
