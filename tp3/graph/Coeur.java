@@ -83,7 +83,6 @@ public class Coeur {
 
         fillQueue(Mdeg, queue);
         int size = queue.size();
-        boolean turn = false;
         int dernierK = 0;
 
         while(!queue.isEmpty()){
@@ -94,12 +93,10 @@ public class Coeur {
                 Mdeg.desactivate_rec(p.getNode(), k);
                 queue = new PriorityQueue(n);
                 fillQueue(Mdeg, queue);
-                turn = false;
                 //Mdeg.print();
             }else{
                 k ++;
                 size = queue.size();
-                turn = true;
             }
         }
 
