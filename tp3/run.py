@@ -171,7 +171,7 @@ results = {
     "k-coeur": {"passed": [], "errors": []},
 }
 
-for i, path_name in enumerate(path_and_names):  # FIXME
+for i, path_name in enumerate(path_and_names):
     base_args = ["java", "-Xms700M", "-Xmx700M", "TP3"]
 
     file_dict = files[path_name[1]]
