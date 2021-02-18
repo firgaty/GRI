@@ -1,102 +1,123 @@
 package graph;
-import java.awt.Point;
+
 import graph.IGraph;
-import graph.Pair;
 import java.util.PriorityQueue;
 import java.util.*;
 
+class NodeState {
+    public int node;
+    public boolean state;
+    public int degree;
 
-class MaintientDegre { 
-    boolean [] states; 
-    int[] deg;
-    //Pour pouvoir consulter les voisins sans faire de copie
+    public NodeState(int node, boolean state, int degree) {
+        this.node = node;
+        this.state = state;
+        this.degree = degree;
+    }
+}
+
+class MaintientDegre {
+    NodeState[] states;
+
+    // Pour pouvoir consulter les voisins sans faire de copie
     IGraph g;
+    PriorityQueue<NodeState> queue;
 
-    //Constructeur, initialise tous les sommets a True et calcule leur degre
-    public MaintientDegre (IGraph g){
+    // Constructeur, initialise tous les sommets a True et calcule leur degre
+    public MaintientDegre(IGraph g) {
         int n = g.verticesCount();
-        states = new boolean[n];
-        deg = new int[n];
+        states = new NodeState[n];
+        queue = new PriorityQueue<>(n, new Comparator<NodeState>() {
+            @Override
+            public int compare(NodeState a, NodeState b) {
+                return Integer.compare(a.degree, b.degree);
+            }
+        });
+
         this.g = g;
-        for (int i = 0; i < n; i ++){
-            states[i] = true;
-            deg[i] = g.degree(i);
+
+        for (int i = 0; i < n; i++) {
+            states[i] = new NodeState(i, true, g.degree(i));
+            queue.add(states[i]);
         }
     }
 
-    //Change l'etat du sommet u et met a jour le degre de ses voisins
-    //Si par la desactivation de u, l'un de ses voisins a un degre inferieur a k on le desactive recursivement
-    public void desactivate_rec (int u, int k) {
-        states[u] = false;
-        Iterable<Integer> voisins  = g.adjacencyListIter(u);
-        int v;
+    // Change l'état du sommet u et met a jour le degré de ses voisins
+    // Si par la désactivation de u, l'un de ses voisins a un degré inférieur a k on
+    // le désactive récursivement
+    private void removeNodeRec(int u, int k) {
+        g.adjacencyListIter(u).forEach((element) -> {
+            NodeState nodeState = states[element];
 
-        voisins.forEach(
-            (element) -> {
-            if(states[element]){
-                deg[element] = deg[element] - 1;
-               // System.out.println("deg "+element +" - 1");
-                if(deg[element] < k){
-                    desactivate_rec((int)element,k);
+            if (nodeState.state) {
+                queue.remove(nodeState);
+                nodeState.degree = nodeState.degree - 1;
+
+                if (nodeState.degree < k) {
+                    nodeState.state = false;
+                    removeNode((int) element, k);
+                } else {
+                    queue.add(nodeState);
                 }
-            } 
-            } 
-        );
+            }
+        });
 
     }
 
-    public void desactivate(int u){
-        desactivate_rec(u, - 1);
+    public void removeNode(int u, int k) {
+        states[u].state = false;
+        queue.remove(states[u]);
+
+        removeNodeRec(u, k);
     }
 
-    public int[] getDeg(){
-        return deg;
+    public boolean getState(int i) {
+        return states[i].state;
     }
 
-    public boolean getState(int i){
-        return states[i];
+    public int getDeg(int i) {
+        return states[i].degree;
     }
 
-    public int getDeg (int i){
-        return deg[i];
+    public NodeState nextState() {
+        return queue.peek();
     }
 
-    public void print(){
-        for (int i =0; i< states.length ; i++){
-            System.out.println("States "+i+" = "+ states[i]);
-            System.out.println("Deg "+i+" = "+ deg[i]);
+    public boolean queueIsEmpty() {
+        return queue.isEmpty();
+    }
+
+    public int queueSize() {
+        return queue.size();
+    }
+
+    public void print() {
+        for (int i = 0; i < states.length; i++) {
+            System.out.println("States " + i + " = " + states[i]);
+            System.out.println("Deg " + i + " = " + getDeg(i));
         }
         System.out.println("FIN");
     }
+
 }
 
 public class Coeur {
 
-    
-
-    public int[] kCoeur (IGraph g){
+    public int[] kCoeur(IGraph g) {
         int n = g.verticesCount();
-        MaintientDegre Mdeg = new MaintientDegre(g);
-        PriorityQueue<Pair> queue = new PriorityQueue(n);
-        int [] res = new int[2];
-        int k = 0;
-
-        fillQueue(Mdeg, queue);
-        int size = queue.size();
+        MaintientDegre maintientDegre = new MaintientDegre(g);
+        int[] res = new int[2];
         int dernierK = 0;
+        int size = 0;
 
-        while(!queue.isEmpty()){
-            Pair p = queue.peek();
-            if(p.getDeg() < k && k < n){
-                dernierK = p.getDeg();
-               // System.out.println("desactive "+p.getNode() + " " + p.getDeg() + " " + k);
-                Mdeg.desactivate_rec(p.getNode(), k);
-                queue = new PriorityQueue(n);
-                fillQueue(Mdeg, queue);
-                //Mdeg.print();
-            }else{
-                k ++;
-                size = queue.size();
+        for (int k = 0; !maintientDegre.queueIsEmpty() && k < n; k++) {
+            size = maintientDegre.queueSize();
+            dernierK = k - 1;
+            
+            for (NodeState state = maintientDegre.nextState(); !maintientDegre.queueIsEmpty()
+                    && state.degree < k; state = maintientDegre.nextState()) {
+                // System.err.println("Remove node: " + state.node + " | size: " + maintientDegre.queueSize());
+                maintientDegre.removeNode(state.node, k);
             }
         }
 
@@ -104,19 +125,4 @@ public class Coeur {
         res[1] = size;
         return res;
     }
-
-    //Remplissage de la PriorityQueue
-    public void fillQueue(MaintientDegre m, PriorityQueue<Pair> queue){
-        int [] deg = m.getDeg();
-        for(int i = 0; i<deg.length; i++) {
-            if(m.getState(i)) queue.add(new Pair(i, deg[i]));
-        }
-    }
-
-
 }
-
-
-
-
- 
