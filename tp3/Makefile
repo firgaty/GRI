@@ -21,7 +21,7 @@ CLASSES = \
 		  graph/Cluster.java \
 		  graph/Triangles.java \
 		  graph/Coeur.java \
-		  graph/Pair.java
+		  utils/ProgressBar.java
 		  
 
 default: classes
