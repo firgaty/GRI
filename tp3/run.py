@@ -192,7 +192,6 @@ for i, path_name in enumerate(path_and_names):
         result = subprocess.run(
             base_args + added_args,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
         )
 
         # print(result.stdout.decode("utf-8"))
