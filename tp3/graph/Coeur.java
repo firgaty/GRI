@@ -1,6 +1,7 @@
 package graph;
 
-import graph.IGraph;
+import utils.ProgressBar;
+
 import java.util.PriorityQueue;
 import java.util.*;
 
@@ -36,39 +37,29 @@ class MaintientDegre {
 
         this.g = g;
 
+        ProgressBar bar = new ProgressBar(n, "pop");
         for (int i = 0; i < n; i++) {
+            bar.show();
             states[i] = new NodeState(i, true, g.degree(i));
             queue.add(states[i]);
+            bar.iter();
         }
-    }
-
-    // Change l'état du sommet u et met a jour le degré de ses voisins
-    // Si par la désactivation de u, l'un de ses voisins a un degré inférieur a k on
-    // le désactive récursivement
-    private void removeNodeRec(int u, int k) {
-        g.adjacencyListIter(u).forEach((element) -> {
-            NodeState nodeState = states[element];
-
-            if (nodeState.state) {
-                queue.remove(nodeState);
-                nodeState.degree = nodeState.degree - 1;
-
-                if (nodeState.degree < k) {
-                    nodeState.state = false;
-                    removeNode((int) element, k);
-                } else {
-                    queue.add(nodeState);
-                }
-            }
-        });
-
+        bar.show();
     }
 
     public void removeNode(int u, int k) {
         states[u].state = false;
         queue.remove(states[u]);
 
-        removeNodeRec(u, k);
+        g.adjacencyListIter(u).forEach((element) -> {
+            NodeState nodeState = states[element];
+
+            if (nodeState.state) {
+                queue.remove(nodeState);
+                nodeState.degree = nodeState.degree - 1;
+                queue.add(nodeState);
+            }
+        });
     }
 
     public boolean getState(int i) {
@@ -101,25 +92,32 @@ class MaintientDegre {
 
 }
 
+
+
 public class Coeur {
 
     public int[] kCoeur(IGraph g) {
+        
         int n = g.verticesCount();
         MaintientDegre maintientDegre = new MaintientDegre(g);
         int[] res = new int[2];
         int dernierK = 0;
         int size = 0;
+        ProgressBar bar = new ProgressBar(n, "k-coeur");
 
         for (int k = 0; !maintientDegre.queueIsEmpty() && k < n; k++) {
             size = maintientDegre.queueSize();
             dernierK = k - 1;
-            
+
             for (NodeState state = maintientDegre.nextState(); !maintientDegre.queueIsEmpty()
                     && state.degree < k; state = maintientDegre.nextState()) {
-                // System.err.println("Remove node: " + state.node + " | size: " + maintientDegre.queueSize());
+                bar.show();
                 maintientDegre.removeNode(state.node, k);
+                bar.iter();
             }
         }
+
+        bar.show();
 
         res[0] = dernierK;
         res[1] = size;
