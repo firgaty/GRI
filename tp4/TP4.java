@@ -1,5 +1,27 @@
 public class TP4 {
 
+    public int[] graphe_aleatoire(int[] degrees) {
+        return null;
+    }
+
+    public int[] exemple() {
+        return null;
+    }
+
+    public int[] racine(int n) {
+        return null;
+    }
+
+    public int[] puissance(int n, double gamma) {
+        return null;
+    }
+
+    public void print_edges(int[] edges) {
+        for (int i = 0; i < edges.length; i += 2) {
+            System.out.println(Integer.toString(edges[i]) + " " + Integer.toString(edges[i + 1]));
+        }
+    }
+
     public static void main(String args[]) {
         String type = args[0];
         String fileName = args[1];
