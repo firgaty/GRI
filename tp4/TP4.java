@@ -1,3 +1,5 @@
+import java.lang.Math;
+
 public class TP4 {
 
     public int[] graphe_aleatoire(int[] degrees) {
@@ -9,7 +11,23 @@ public class TP4 {
     }
 
     public int[] racine(int n) {
-        return null;
+        int out[] = new int[n];
+
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            double sqrt = Math.sqrt((double) (i + 1));
+            int degree = (int) Math.floor(sqrt);
+
+            count += degree;
+            out[i] = degree;
+        }
+
+        if (count % 2 != 0) {
+            out[n - 1]++;
+        }
+
+        return out;
     }
 
     public int[] puissance(int n, double gamma) {
@@ -32,12 +50,10 @@ public class TP4 {
         IGraph g = gf.parse(fileName, nbNodes, false);
         int out = -1;
 
-        
-
         switch (type) {
             case "racine": {
                 return 0;
-                }
+            }
             case "puissance": {
                 return 0;
             }

@@ -7,9 +7,7 @@ JC = javac
 
 CLASSES = \
 		  TP4.java \
-		  Exemple.java \
-		  Racine.java \
-		  Puissance.java
+
 		  
 
 default: classes
