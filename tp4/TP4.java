@@ -75,7 +75,7 @@ public class TP4 {
 
         switch (type) {
             case "racine": {
-                return 0;
+                break;
             }
             case "puissance": {
                 break ;
