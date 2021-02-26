@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.Random;
 
 public class TP4 {
 
@@ -6,8 +7,35 @@ public class TP4 {
         return null;
     }
 
-    public int[] exemple() {
-        return null;
+    public static void myShuffle(int[] t) {
+		Random rand = new Random();
+		for(int j = t.length - 1 ; j> 1 ; j --){
+			int r = rand.nextInt(j + 1);
+			int tmp = t[r];
+			t[r] = t[j];
+			t[j] = tmp;
+		}
+	}
+
+    public static int[] exemple(int [] seq) {
+         //On calcule la taille de E
+        int taille = 0;
+        for(int i = 0; i< seq.length; i++){
+            taille += seq[i];
+        }
+
+        int[] E = new int[taille];
+        int pos  = 0;
+        for (int i =0 ; i< seq.length ; i ++){
+            int tmp = 0;
+            while(tmp < seq[i]){
+                E[pos] = i;
+                tmp ++;
+                pos ++;
+            }
+        }
+        myShuffle(E);
+        return  E;
     }
 
     public int[] racine(int n) {
@@ -34,7 +62,7 @@ public class TP4 {
         return null;
     }
 
-    public void print_edges(int[] edges) {
+    public static void print_edges(int[] edges) {
         for (int i = 0; i < edges.length; i += 2) {
             System.out.println(Integer.toString(edges[i]) + " " + Integer.toString(edges[i + 1]));
         }
@@ -42,12 +70,7 @@ public class TP4 {
 
     public static void main(String args[]) {
         String type = args[0];
-        String fileName = args[1];
-        int nbNodes = Integer.parseInt(args[2]);
-
-        GraphParser gf = new GraphParser();
-        // on considere le graphe non oriente
-        IGraph g = gf.parse(fileName, nbNodes, false);
+        //String fileName = args[1];
         int out = -1;
 
         switch (type) {
@@ -55,10 +78,13 @@ public class TP4 {
                 return 0;
             }
             case "puissance": {
-                return 0;
+                break ;
             }
             case "exemple": {
-                return 0;
+                int [] def = new int[] {1,2,1,4} ;
+                int [] tab = exemple(def);
+                print_edges(tab);
+                break;
             }
             default: {
                 return;
