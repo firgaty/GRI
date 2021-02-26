@@ -13,6 +13,7 @@ CLASSES = \
 		  graph/Cluster.java \
 		  graph/Triangles.java \
 		  graph/Coeur.java \
+		  utils/ProgressBar.java
 		  
 
 default: classes
