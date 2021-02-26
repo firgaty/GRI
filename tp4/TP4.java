@@ -54,10 +54,6 @@ public class TP4 {
         return out;
     }
 
-    public int[] puissance(int n, double gamma) {
-        return null;
-    }
-
     public int[] convertPuissance(int n, int[] list) {
         int out[] = new int[n];
         int counter = 0;
@@ -72,7 +68,7 @@ public class TP4 {
         return out;
     }
 
-    public int[] puissance2(int n, double gamma) {
+    public int[] puissance(int n, double gamma) {
         double[] val = new double[n];
         int[] out = new int[n];
         double sum = 0;
@@ -122,7 +118,7 @@ public class TP4 {
             case "puissance": {
                 int nbNodes = Integer.parseInt(args[1]);
                 double gamma = Double.parseDouble(args[2]);
-                tp.print_edges(tp.grapheAleatoire(tp.puissance2(nbNodes, gamma)));
+                tp.print_edges(tp.grapheAleatoire(tp.puissance(nbNodes, gamma)));
                 break;
             }
             case "exemple": {
