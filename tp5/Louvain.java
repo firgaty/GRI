@@ -32,7 +32,9 @@ public class Louvain{
                     if(mod > mod_max){
                         mod_max =  mod;
                         com_max = c.community[element] ;
-                    }
+                    }else if (mod ==  mod_max && com_max > c.community[element]){
+                        com_max = c.community[element] ;
+                    }   
                 }
                 if(mod_max > 0L){
                     c.move(j, com_max);
