@@ -14,7 +14,6 @@ public class TP5 {
         GraphParser gf = new GraphParser();
         // on considere le graphe non oriente
         IGraph g = gf.parse(fileName, nbNodes, false);
-        int out = -1;
 
         switch (type) {
         case "delta": {
@@ -52,8 +51,6 @@ public class TP5 {
         }
         case "deplacements": {
             Community c = new Community(g);
-            String fileDep = args[3];
-            int nbNodesDep = Integer.parseInt(args[4]);
             try {
                 Scanner s = new Scanner(new FileReader(args[3]));
 
@@ -70,7 +67,7 @@ public class TP5 {
             break;
         }
         case "phase": {
-            new Louvain(g);
+            new     Louvain(g);
             break;
         }
         }

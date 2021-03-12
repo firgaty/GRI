@@ -1,6 +1,3 @@
-import java.lang.annotation.Retention;
-import java.util.LinkedList;
-
 import graph.IGraph;
 
 public class Community {
