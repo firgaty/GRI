@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-
 public class TP5 {
 
     public static void main(String args[]) {
@@ -19,13 +18,36 @@ public class TP5 {
 
         switch (type) {
         case "delta": {
+            Community c = new Community(g);
             int u = Integer.parseInt(args[3]);
             int v = Integer.parseInt(args[4]);
+
+            System.out.println(c.modularity());
+
+            c.move(u, c.communityOf(v));
+
+            System.out.println(c.modularity());
             break;
         }
         case "delta12321": {
+            Community c = new Community(g);
             int u = Integer.parseInt(args[3]);
             int v = Integer.parseInt(args[4]);
+            int cW = Integer.parseInt(args[5]);
+
+            int cU = c.communityOf(u);
+            int cV = c.communityOf(v);
+
+            System.out.println(c.modularity());
+            c.move(u, cW);
+            System.out.println(c.modularity());
+            c.move(v, cW);
+            System.out.println(c.modularity());
+            c.move(u, cU);
+            System.out.println(c.modularity());
+            c.move(v, cV);
+            System.out.println(c.modularity());
+
             break;
         }
         case "deplacements": {
@@ -33,20 +55,20 @@ public class TP5 {
             int nbNodesDep = Integer.parseInt(args[4]);
             try {
                 Scanner s = new Scanner(new FileReader(args[3]));
-            
+
                 while (s.hasNext()) {
                     int u = s.nextInt();
                     int v = s.nextInt();
-                    //delta(fileName, nbNodes, u, v);
+                    // delta(fileName, nbNodes, u, v);
                 }
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             break;
         }
         case "phase": {
             Long[] phase = Louvain.algoPhase(g);
-            for(int i = 0; i< phase.length; i++){
+            for (int i = 0; i < phase.length; i++) {
                 System.out.format("%.5f\n", phase[i]);
             }
             break;

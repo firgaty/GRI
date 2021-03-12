@@ -39,8 +39,16 @@ public class Community {
         sumDegreeCommunity[to] += 2 * sumCommunity(u);
     }
 
-    public double modularity() {
-        return modularity / (2 * graph.verticesCount() * 2 * graph.verticesCount());
+    public long modularity() {
+        return modularity;
+    }
+
+    public double modularityDouble() {
+        return (double) modularity / (double) (2 * graph.verticesCount() * 2 * graph.verticesCount());
+    }
+
+    public int communityOf(int u) {
+        return community[u];
     }
 
     public long computeModularityDelta(int u, int to) {

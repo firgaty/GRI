@@ -10,7 +10,6 @@ CLASSES = \
 		  graph/parser/GraphParser.java \
 		  graph/Graph.java \
 		  graph/Edges.java \
-		  utils/ProgressBar.java \
 		  Community.java \
 		  Louvain.java
 		  

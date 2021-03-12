@@ -28,7 +28,7 @@ public class Louvain{
                 int com_max = - 1;
                 //SI un des voisins n'est pas dans la meme communaute
                 if (c.community[element] != c.community[j]) {
-                    long mod = c.updateModularity(j, c.community[element]);
+                    long mod = c.computeModularityDelta(j, c.community[element]);
                     if(mod > mod_max){
                         mod_max =  mod;
                         com_max = c.community[element] ;
