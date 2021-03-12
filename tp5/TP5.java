@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+
 public class TP5 {
 
     public static void main(String args[]) {
@@ -34,8 +35,8 @@ public class TP5 {
                 Scanner s = new Scanner(new FileReader(args[3]));
             
                 while (s.hasNext()) {
-                    u = s.nextInt()
-                    v = s.nextInt()
+                    int u = s.nextInt();
+                    int v = s.nextInt();
                     //delta(fileName, nbNodes, u, v);
                 }
             }catch (IOException e) {
@@ -44,6 +45,10 @@ public class TP5 {
             break;
         }
         case "phase": {
+            Long[] phase = Louvain.algoPhase(g);
+            for(int i = 0; i< phase.length; i++){
+                System.out.format("%.5f\n", phase[i]);
+            }
             break;
         }
         }

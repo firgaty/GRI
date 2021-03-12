@@ -11,7 +11,8 @@ CLASSES = \
 		  graph/Graph.java \
 		  graph/Edges.java \
 		  utils/ProgressBar.java \
-		  Community.java
+		  Community.java \
+		  Louvain.java
 		  
 
 default: classes
