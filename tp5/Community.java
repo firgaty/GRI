@@ -6,21 +6,20 @@ import graph.IGraph;
 public class Community {
     int[] community;
     int[] sumDegree;
-    int[] sumDegreeCommunity;
     long modularity;
+    long m2;
     IGraph graph;
 
     public Community(IGraph g) {
         community = new int[g.verticesCount()];
         sumDegree = new int[g.verticesCount()];
-        sumDegreeCommunity = new int[g.verticesCount()];
 
         graph = g;
 
         for (int i = 0; i < g.verticesCount(); i++) {
             community[i] = i;
             sumDegree[i] = graph.degree(i);
-            sumDegreeCommunity[i] = 0;
+            m2 += sumDegree[i];
         }
 
         modularity = initModularity();
@@ -28,15 +27,13 @@ public class Community {
 
     public void move(int u, int to) {
         modularity += computeModularityDelta(u, to);
+        
         int from = community[u];
-
-        sumDegree[from] -= graph.degree(u);
-        sumDegreeCommunity[from] -= 2 * sumCommunity(u);
-
+        
         community[u] = to;
-
+        
+        sumDegree[from] -= graph.degree(u);
         sumDegree[to] += graph.degree(u);
-        sumDegreeCommunity[to] += 2 * sumCommunity(u);
     }
 
     public long modularity() {
@@ -44,7 +41,7 @@ public class Community {
     }
 
     public double modularityDouble() {
-        return (double) modularity / (double) (2 * graph.verticesCount() * 2 * graph.verticesCount());
+        return (double) modularity / (double) (m2 * m2);
     }
 
     public int communityOf(int u) {
@@ -52,35 +49,36 @@ public class Community {
     }
 
     public long computeModularityDelta(int u, int to) {
-        int c = community[u];
-        long duc = sumDegreeCommunity[c];
-        long dub = sumDegreeCommunity[to];
+        int b = community[u];
         long du = graph.degree(u);
-        int m = graph.verticesCount();
 
-        return 4L * m * (duc + dub) - 2 * du * (sumDegree[c] - sumDegree[to] + du);
+        int duc = 0;
+        int dub = 0;
+
+        for (int i : graph.adjacencyListIter(u)) {
+            if (community[i] == b) {
+                dub += 1;
+            }
+            if (community[i] == to) {
+                duc += 1;
+            }
+        }
+
+        int sc = sumDegree[to];
+        int sb = sumDegree[b];
+
+        long delta = 2L * m2 * (duc - dub) - 2L * du * (sc - sb + du);
+
+        return delta;
     }
 
     private long initModularity() {
         long out = 0;
 
         for (int i = 0; i < graph.verticesCount(); i++) {
-            out += -sumDegree[i];
+            out -= sumDegree[i] * sumDegree[i];
         }
 
         return out;
-    }
-
-    private int sumCommunity(int u) {
-        int sum = 0;
-        int c = community[u];
-
-        for (int i : graph.adjacencyListIter(u)) {
-            if (community[i] == c) {
-                sum += 1;
-            }
-        }
-
-        return sum;
     }
 }

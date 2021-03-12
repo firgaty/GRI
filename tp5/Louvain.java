@@ -1,45 +1,43 @@
 import graph.IGraph;
-import java.util.ArrayList;
 
-public class Louvain{
+public class Louvain {
+    IGraph g;
+    Community community;
 
-    public static Long[] algoPhase(IGraph g){
-        Community c = new Community(g);
+    public Louvain(IGraph g) {
+        community = new Community(g);
+        this.g = g;
 
-        ArrayList<Long> res = new ArrayList<>(0);
-        long modularity = c.modularity();
-        long new_mod = modularity + 1L;
-        while(modularity < new_mod){
-            unePhase(c,g);  
-            new_mod = c.modularity();
-            res.add(new_mod);
-        }
-
-        return res.toArray(new Long[res.size()]);
+        while (phase())
+            ;
     }
 
-    private static void unePhase (Community c, IGraph g){
-        //on inspecte les sommets dans l'ordre 0 a n-1
-        for(int i =0; i<g.verticesCount(); i++){
-            Iterable<Integer> voisins = g.adjacencyListIter(i);
-            final int j  = i;
-            voisins.forEach((element) -> {
-                long mod_max = 0L ;
-                int com_max = - 1;
-                //SI un des voisins n'est pas dans la meme communaute
-                if (c.community[element] != c.community[j]) {
-                    long mod = c.computeModularityDelta(j, c.community[element]);
-                    if(mod > mod_max){
-                        mod_max =  mod;
-                        com_max = c.community[element] ;
-                    }else if (mod ==  mod_max && com_max > c.community[element]){
-                        com_max = c.community[element] ;
-                    }   
+    private boolean phase() {
+        boolean flag = false;
+
+        for (int u = 0; u < g.verticesCount(); u++) {
+            int minPos = g.verticesCount() + 1;
+            long max = 0;
+
+            for (int v : g.adjacencyListIter(u)) {
+                int c = community.communityOf(v);
+                long delta = community.computeModularityDelta(u, c);
+
+                if (delta > max || delta == max && c < minPos) {
+                    minPos = c;
+                    max = delta;
                 }
-                if(mod_max > 0L){
-                    c.move(j, com_max);
-                }
-            });
+            }
+
+            if (minPos < g.verticesCount() + 1) {
+                community.move(u, minPos);
+                flag = true;
+            }
         }
+
+        System.out.format("%.5f\n", community.modularityDouble());
+
+        return flag;
     }
+
 }

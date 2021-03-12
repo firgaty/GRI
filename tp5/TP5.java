@@ -51,6 +51,7 @@ public class TP5 {
             break;
         }
         case "deplacements": {
+            Community c = new Community(g);
             String fileDep = args[3];
             int nbNodesDep = Integer.parseInt(args[4]);
             try {
@@ -59,18 +60,17 @@ public class TP5 {
                 while (s.hasNext()) {
                     int u = s.nextInt();
                     int v = s.nextInt();
-                    // delta(fileName, nbNodes, u, v);
+                    c.move(u, v);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            System.out.format("%.5f\n", c.modularityDouble());
             break;
         }
         case "phase": {
-            Long[] phase = Louvain.algoPhase(g);
-            for(int i = 0; i< phase.length; i++){
-                System.out.format("%.5f\n", (float)phase[i]);
-            }
+            new Louvain(g);
             break;
         }
         }
