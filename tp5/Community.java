@@ -2,24 +2,27 @@ import graph.IGraph;
 
 public class Community {
     int[][] communities;
-    int[] community_size;
+    int[] communitySize;
+    int[] verticeCommunity;
     long modularity;
     IGraph graph;
 
     public Community(IGraph g) {
         communities = new int[g.verticesCount()][1];
-        community_size = new int[g.verticesCount()];
+        communitySize = new int[g.verticesCount()];
+        verticeCommunity = new int[g.verticesCount()];
         graph = g;
         
         for (int i = 0; i < g.verticesCount(); i++) {
             communities[i][0] = i;
-            community_size[i] = 1;
+            communitySize[i] = 1;
+            verticeCommunity[i] = i;
         }
         
         modularity = initModularity();
     }
 
-    public void move(int from, int to) {
+    public void move(int u, int from, int to) {
         
     }
 
