@@ -47,7 +47,7 @@ public class TP5 {
         case "phase": {
             Long[] phase = Louvain.algoPhase(g);
             for(int i = 0; i< phase.length; i++){
-                System.out.format("%.5f\n", phase[i]);
+                System.out.format("%.5f\n", (float)phase[i]);
             }
             break;
         }
