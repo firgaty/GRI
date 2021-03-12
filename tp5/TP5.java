@@ -15,12 +15,18 @@ public class TP5 {
 
         switch (type) {
         case "delta": {
+            int u = Integer.parseInt(args[3]);
+            int v = Integer.parseInt(args[4]);
             break;
         }
         case "delta12321": {
+            int u = Integer.parseInt(args[3]);
+            int v = Integer.parseInt(args[4]);
             break;
         }
         case "deplacements": {
+            String fileDep = args[3];
+            int nbNodesDep = Integer.parseInt(args[4]);
             break;
         }
         case "phase": {
