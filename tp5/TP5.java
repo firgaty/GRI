@@ -1,5 +1,8 @@
 import graph.IGraph;
 import graph.parser.GraphParser;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class TP5 {
 
@@ -27,6 +30,17 @@ public class TP5 {
         case "deplacements": {
             String fileDep = args[3];
             int nbNodesDep = Integer.parseInt(args[4]);
+            try {
+                Scanner s = new Scanner(new FileReader(args[3]));
+            
+                while (s.hasNext()) {
+                    u = s.nextInt()
+                    v = s.nextInt()
+                    //delta(fileName, nbNodes, u, v);
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
             break;
         }
         case "phase": {
